@@ -1,0 +1,14 @@
+#!/system/xbin/bash
+
+if [ "a$3" == "a" ]; then
+	evalcmd='eval "echo \$KCAL$2"';
+	eval $evalcmd;
+else
+	evalcmd='eval "KCAL$2=$3"';
+	eval $evalcmd;
+	evalcmd='eval "echo \$KCAL$2"';
+	eval $evalcmd;
+
+	echo "$KCAL1 $KCAL2 $KCAL3" > /sys/devices/platform/kcal_ctrl.0/kcal;
+
+fi;

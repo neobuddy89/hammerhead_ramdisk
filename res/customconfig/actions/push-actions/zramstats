@@ -1,0 +1,14 @@
+#!/sbin/busybox sh
+
+PROFILE=`cat /data/.chaos/.active.profile`;
+. /data/.chaos/${PROFILE}.profile;
+
+if [ "$zramtweaks" != 4 ]; then
+	if [ -e /system/xbin/bash ] || [ -e /system/bin/bash ]; then
+		/res/customconfig/actions/push-actions/zram_stats_ex;
+	else
+		free;
+	fi;
+else
+	echo "ZRAM IS OFFLINE";
+fi;
