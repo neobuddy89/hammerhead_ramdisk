@@ -7,11 +7,10 @@ if [ "$ad_block_update" == "on" ]; then
 
 	WGET_CHECK1=`ls -la /system/xbin/wget | wc -l`;
 	WGET_CHECK2=`ls -la /system/bin/wget | wc -l`;
+	TMPFILE="/data/.chaos/hosts";
+	HOST_FILE="/system/etc/hosts";
 
 	if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
-
-		TMPFILE=$(mktemp -t);
-		HOST_FILE="/system/etc/hosts";
 
 		mount -o remount,rw /;
 		mount -o remount,rw /system;
@@ -44,6 +43,7 @@ if [ "$ad_block_update" == "on" ]; then
 			wget http://winhelp2002.mvps.org/hosts.zip -O $TMPFILE > /dev/null 2>&1;
 			unzip -p $TMPFILE HOSTS > $HOST_FILE;
 			chmod 644 $HOST_FILE;
+			dos2unix -u $HOST_FILE;
 			date +%H:%M-%D-%Z > /data/crontab/cron-ad_block_update;
 			echo "AD Blocker: Updated" >> /data/crontab/cron-ad_block_update;
 		fi;

@@ -1,9 +1,0 @@
-		<seekBar description="BLX is Battery Life eXtender mode. This sets capacity limit of your battery. Theoretically, overcharging / charging full cycles degrades modern Lithium-ion batteries. So, many developers recommend value of 95 as capacity limit to extend battery life by preventing any degradation. Default 100." name="BLX" action="generic /sys/class/misc/batterylifeextender/charging_limit" unit="percent" min="50" reversed="false" step="1" max="100"/>
-		<checkbox description="This hack will enable showing AC as source when Fast Charge is enabled and will also help to force max power from connected power source." name="Fast Charge AC Hack" action="generic01 /sys/kernel/fast_charge/fake_charge_ac" label="Fast Charge AC Hack"/>
-
-		<spinner description="When enabled, CPU Boost driver uses task load to boost sibling CPUs." name="Load Based Synchronization" action="generic /sys/module/cpu_boost/parameters/load_based_syncs">
-			<spinnerItem name="Enabled" value="Y"/> 
-			<spinnerItem name="Disabled" value="N"/> 
-		</spinner>
-		<seekBar description="This defines minimum load to be considered before migration to initiate for load based synchronization. Default: 60." name="Load Migration Threshold" action="generic /sys/module/cpu_boost/parameters/migration_load_threshold" unit=" " min="15" reversed="false" step="5" max="300"/>
-

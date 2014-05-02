@@ -77,7 +77,7 @@
 	</settingsPane>
 
 	<settingsPane description="You can fine tune hotpluggin on your device here." name="Hotplug control">
-		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be less than or equal to no. of Max CPUs online. Default 2." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
+		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be less than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>

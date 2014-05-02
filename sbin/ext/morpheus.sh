@@ -23,7 +23,6 @@ CPUFREQ_FIX()
 	local state="$1";
 
 	if [ "$state" == "awake" ]; then
-		# echo "$min_cpus_online" > /sys/module/msm_hotplug/min_cpus_online
 		echo "$scheduler" > /sys/block/mmcblk0/queue/scheduler
 		if [ "$scaling_max_freq" -eq "2265600" ] && [ "$scaling_max_freq_oc" -gt "2265600" ]; then
 			MAX_FREQ="$scaling_max_freq_oc";	
@@ -52,8 +51,10 @@ CPUFREQ_FIX()
 		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
 		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
 		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
+		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
+		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
 		echo "$suspend_scheduler" > /sys/block/mmcblk0/queue/scheduler
-		# echo "$min_cpus_online_suspend" > /sys/module/msm_hotplug/min_cpus_online
 	fi;
 
 	log -p i -t "$FILE_NAME" "*** CPU IMMUNIZED FOR $state MODE ***";
@@ -110,6 +111,19 @@ MEM_CLEANER()
 	fi;
 }
 
+TOUCH_FIX()
+{
+	# Override these values everytime, in case changed by external app
+	echo "$pwrkey_suspend" > /sys/module/qpnp_power_on/parameters/pwrkey_suspend;
+	echo "$wake_timeout" > /sys/android_touch/wake_timeout;
+	echo "$doubletap2wake" > /sys/android_touch/doubletap2wake;
+	echo "$doubletap2wake_feather" > /sys/android_touch/doubletap2wake_feather;
+	echo "$s2w_s2sonly" > /sys/android_touch/s2w_s2sonly;
+	echo "$sweep2wake" > /sys/android_touch/sweep2wake;
+
+	log -p i -t "$FILE_NAME" "*** WAKE CONTROL IMMUNIZED ***";
+}
+
 # ==============================================================
 # TWEAKS: if Screen-ON
 # ==============================================================
@@ -117,6 +131,7 @@ AWAKE_MODE()
 {
 	CPUFREQ_FIX "awake";
 	THERMAL_CTRL "awake";
+	TOUCH_FIX;
 	log -p i -t "$FILE_NAME" "*** Morpheus: Wake mode activated. ***";
 }
 
@@ -129,6 +144,7 @@ SLEEP_MODE()
 	PROFILE=$(cat "$DATA_DIR"/.active.profile);
 	. "$DATA_DIR"/"$PROFILE".profile;
 
+	TOUCH_FIX;
 	CROND_SAFETY;
 	CPUFREQ_FIX "sleep";
 	THERMAL_CTRL "sleep";
