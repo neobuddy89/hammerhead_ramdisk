@@ -76,21 +76,6 @@
 		</spinner>
 	</settingsPane>
 
-	<settingsPane description="You can fine tune hotpluggin on your device here." name="Hotplug control">
-		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be less than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
-			<spinnerItem name="1 CORE" value="1"/>
-			<spinnerItem name="2 CORES" value="2"/>
-			<spinnerItem name="3 CORES" value="3"/>
-			<spinnerItem name="4 CORES" value="4"/>
-		</spinner>
-		<spinner description="This will decide maximum number of cores that can go online at any given time. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 4." name="Max CPUs online" action="generic /sys/module/msm_hotplug/max_cpus_online">
-			<spinnerItem name="1 CORE" value="1"/>
-			<spinnerItem name="2 CORES" value="2"/>
-			<spinnerItem name="3 CORES" value="3"/>
-			<spinnerItem name="4 CORES" value="4"/>
-		</spinner>
-	</settingsPane>
-
 	<settingsPane description="You can change governor of your device here. Governor decides current frequency of your device accordingly." name="Governor control">
 		<spinner description="This will set the active CPU governor." name="Default CPU Governor" action="generic /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor">
 			<spinnerItem name="Conservative" value="conservative"/>
@@ -135,6 +120,52 @@
 		</spinner>
 	</settingsPane>
 
+</settingsTab>
+
+<settingsTab name="Hotplug Control">
+	<settingsPane description="You can select hotplugging method here. Controls given below are specific to mentioned hotplug technique." name="HotPlug Driver">
+		<spinner description="Switch between different hotplug drivers." name="HotPlug Driver" action="hotplug">
+			<spinnerItem name="Cyanogenmod Default" value="mpdecision"/> 
+			<spinnerItem name="MSM HotPlug" value="msm_hotplug"/> 
+			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
+			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
+		</spinner>
+	</settingsPane>
+
+	<settingsPane description="MSM HotPlug is default hotplug driver of this kernel where hotplugging is based on total load evaluation. You can fine tune MSM hotplugging driver on your device here." name="MSM HotPlug">
+		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be less than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
+		</spinner>
+		<spinner description="This will decide maximum number of cores that can go online at any given time. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 4." name="Max CPUs online" action="generic /sys/module/msm_hotplug/max_cpus_online">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
+		</spinner>
+	</settingsPane>
+	<settingsPane description="Intelli HotPlug is an intelligient hotplug driver for low-latency capable processors and hotplugging is based on task scheduler's algorithm." name="Intelli HotPlug">
+		<spinner description="Eco Mode will help to save more power with Intelli HotPlug since only two cores will be in operation and rest two cores will shut down to save power." name="Eco Mode" action="generic /sys/module/intelli_plug/parameters/eco_mode_active">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+		</spinner>
+	</settingsPane>
+	<settingsPane description="Alucard HotPlug is an alternate hotplug driver where hotplugging is done on basis of per-cpu load evaluation and in traditional fashion where cores turn online/offline in ascending/descending order respectively." name="Alucard HotPlug">
+		<spinner description="This will decide maximum number of cores that can go online at any given time when screen is on. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 4." name="Max CPUs online (Screen ON)" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
+		</spinner>
+		<spinner description="This will decide maximum number of cores that can go online at any given time when screen is off. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 2." name="Max CPUs online (Screen OFF)" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit_sleep">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
+		</spinner>
+	</settingsPane>
 </settingsTab>
 
 <settingsTab name="Voltage Control">
@@ -259,8 +290,7 @@
 			<spinnerItem name="Turn ZRAM off!" value="4"/> 
 		</spinner>
 
-		<spinner description="If you have enabled swap, higher number = the more the system will swap. Keeping swappiness '0' means swapping occurs only when your device runs out of memory, increasing swappiness will result more battery consumption. Please note SWAP is effective only if zRAM is ON.(Default: 0)"
-			name="swappiness" action="generic /proc/sys/vm/swappiness">
+		<spinner description="If you have enabled swap, higher number = the more the system will swap. Keeping swappiness '0' means swapping occurs only when your device runs out of memory, increasing swappiness will result more battery consumption. Please note SWAP is effective only if zRAM is ON.(Default: 0)" name="swappiness" action="generic /proc/sys/vm/swappiness">
 			<spinnerItem name="0" value="0"/> 
 			<spinnerItem name="10" value="10"/> 
 			<spinnerItem name="20" value="20"/> 
@@ -273,6 +303,11 @@
 			<spinnerItem name="90" value="90"/> 
 			<spinnerItem name="100" value="100"/> 
 		</spinner>
+		<spinner description="Switch between different ZRam compression algorithm.LZO is default. LZ4 may be little faster but is currently under test. YOU MUST TURN OFF ZRAM BEFORE CHANGING COMPRESSION ALGORITHM. (Default: LZO)" name="Compression Algorithm" action="generic /sys/block/zram0/comp_algorithm">
+			<spinnerItem name="LZO Compression" value="lzo"/> 
+			<spinnerItem name="LZ4 Compression" value="lz4"/> 
+		</spinner>
+		<button description="ZRam State check. This is primarily for testing purpose but you can use and check current stats of ZRam, if enabled!" name="ZRAM STATS" action="push-actions/zramstats" label="ZRam Stats"/>
 	</settingsPane>
 
 	<settingsPane description="Kernel Samepage Merging" name="KSM">

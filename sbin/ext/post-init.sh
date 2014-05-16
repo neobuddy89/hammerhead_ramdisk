@@ -17,11 +17,6 @@ $BB ln -s /system/bin /bin
 $BB ln -s /system/lib /lib
 $BB chmod -R 777 /sys/module
 
-# rename mpdecision to prevent mishap
-if [ -f /system/bin/mpdecision ]; then
-	mv /system/bin/mpdecision /system/bin/mpdecisionRENAMED;
-fi;
-
 # needed for morpheus
 $BB mkdir /tmp;
 
@@ -71,7 +66,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=21;
+RESET_MAGIC=22;
 if [ ! -e /data/.chaos/reset_profiles ]; then
 	echo "0" > /data/.chaos/reset_profiles;
 fi;

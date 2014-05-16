@@ -80,6 +80,15 @@ if [ ! -f /system/priv-app/NXTweaks.apk ]; then
 	$BB chmod 755 /system/app/NXTweaks.apk;
 fi;
 
+# restore mpdecision if messed up
+if [ -f /system/bin/mpdecisionRENAMED ] && [ ! -f /system/bin/mpdecision ]; then
+	mv /system/bin/mpdecisionRENAMED /system/bin/mpdecision;
+fi;
+if [ ! -f /system/bin/mpdecision ]; then
+	$BB cp /res/misc/payload/mpdecision /system/bin/;
+	$BB chmod 755 /system/bin/mpdecision;
+fi;
+
 # Payload not needed anymore, make some space
 rm -rf /res/misc/payload > /dev/null 2>&1;
 chmod 755 /system/priv-app/NXTweaks.apk;

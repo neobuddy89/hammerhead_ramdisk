@@ -1,0 +1,51 @@
+#!/system/xbin/bash
+
+# $1 - "hotplug"
+# $2 - value=
+
+BB=/sbin/busybox
+
+if [ "a$2" != "a" ]; then
+	hotplug=$2;
+
+	case "${hotplug}" in
+		intelli)
+			/system/bin/stop mpdecision
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "$eco_mode_active" > /sys/module/intelli_plug/parameters/eco_mode_active;
+		;;
+		mpdecision)
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
+				/system/bin/start mpdecision
+				$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
+			fi;
+		;;
+		msm_hotplug)
+			/system/bin/stop mpdecision
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+			echo "$cpus_boosted" > /sys/module/msm_hotplug/cpus_boosted;
+			echo "$max_cpus_online" > /sys/module/msm_hotplug/max_cpus_online;
+		;;
+		alucard)
+			/system/bin/stop mpdecision
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "$maxcoreslimit" > /sys/kernel/alucard_hotplug/maxcoreslimit;
+			echo "$maxcoreslimit_sleep" > /sys/kernel/alucard_hotplug/maxcoreslimit_sleep;
+		;;
+		*)
+			hotplug=msm_hotplug;
+		;;
+	esac;
+fi;
+
+echo ${hotplug};
+

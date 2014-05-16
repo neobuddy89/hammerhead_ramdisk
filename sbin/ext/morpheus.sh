@@ -124,6 +124,71 @@ TOUCH_FIX()
 	log -p i -t "$FILE_NAME" "*** WAKE CONTROL IMMUNIZED ***";
 }
 
+HOTPLUG_CONTROL()
+{
+	if [ "$hotplug" == "mpdecision" ]; then
+		if [ "$(cat /sys/module/intelli_plug/parameters/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
+			/system/bin/start mpdecision
+			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
+		fi;
+	elif [ "$hotplug" == "msm_hotplug" ]; then
+		/system/bin/stop mpdecision
+		if [ "$(cat /sys/module/intelli_plug/parameters/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "0" ]; then
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+	elif [ "$hotplug" == "intelli" ]; then
+		/system/bin/stop mpdecision
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/module/intelli_plug/parameters/intelli_plug_active)" -eq "0" ]; then
+			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+	elif [ "$hotplug" == "alucard" ]; then
+		/system/bin/stop mpdecision
+		if [ "$(cat /sys/module/intelli_plug/parameters/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "0" ]; then
+			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+	fi;
+	log -p i -t "$FILE_NAME" "*** HOTPLUG CONTROL IMMUNIZED ***";
+}
+
+
+ZRAM_CHECK()
+{
+	if [ "$zramtweaks" == "4" ]; then
+		if [ -e /dev/block/zram0 ]; then
+			swapoff /dev/block/zram0 >/dev/null 2>&1;
+			echo "1" > /sys/block/zram0/reset;
+			log -p i -t "$FILE_NAME" "*** ZRAM IMMUNIZED ***";
+		fi;
+	fi;
+}
+
 # ==============================================================
 # TWEAKS: if Screen-ON
 # ==============================================================
@@ -149,6 +214,8 @@ SLEEP_MODE()
 	CPUFREQ_FIX "sleep";
 	THERMAL_CTRL "sleep";
 	MEM_CLEANER;
+	HOTPLUG_CONTROL;
+	ZRAM_CHECK;
 	log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode activated. ***";
 }
 
