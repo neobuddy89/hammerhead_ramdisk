@@ -1,4 +1,4 @@
-#!/system/xbin/busybox sh
+#!/system/xbin/bash
 
 BB=/system/xbin/busybox;
 

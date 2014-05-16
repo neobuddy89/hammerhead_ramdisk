@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/system/xbin/bash
 
 mount -o remount,rw /;
 chmod -R 777 /tmp/;
