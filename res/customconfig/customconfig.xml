@@ -127,13 +127,12 @@
 		<spinner description="Switch between different hotplug drivers." name="HotPlug Driver" action="hotplug">
 			<spinnerItem name="Cyanogenmod Default" value="mpdecision"/> 
 			<spinnerItem name="MSM HotPlug" value="msm_hotplug"/> 
-			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>
 	</settingsPane>
 
 	<settingsPane description="MSM HotPlug is default hotplug driver of this kernel where hotplugging is based on total load evaluation. You can fine tune MSM hotplugging driver on your device here." name="MSM HotPlug">
-		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be less than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
+		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>
@@ -146,20 +145,20 @@
 			<spinnerItem name="4 CORES" value="4"/>
 		</spinner>
 	</settingsPane>
-	<settingsPane description="Intelli HotPlug is an intelligient hotplug driver for low-latency capable processors and hotplugging is based on task scheduler's algorithm." name="Intelli HotPlug">
-		<spinner description="Eco Mode will help to save more power with Intelli HotPlug since only two cores will be in operation and rest two cores will shut down to save power." name="Eco Mode" action="generic /sys/module/intelli_plug/parameters/eco_mode_active">
+	<settingsPane description="Intelli HotPlug is an intelligient hotplug driver for low-latency capable processors and hotplugging is based on task scheduler's algorithm. When device suspends, all sibling cores shut down. So, this hotplug technique is more power-friendly when device is idle." name="Intelli HotPlug">
+		<spinner description="Eco Mode will help to save more power with Intelli HotPlug since only two cores will be in operation and rest two cores will shut down to save power." name="Eco Mode" action="generic /sys/kernel/intelli_plug/eco_mode_active">
 			<spinnerItem name="Disabled" value="0"/>
 			<spinnerItem name="Enabled" value="1"/>
 		</spinner>
-	</settingsPane>
-	<settingsPane description="Alucard HotPlug is an alternate hotplug driver where hotplugging is done on basis of per-cpu load evaluation and in traditional fashion where cores turn online/offline in ascending/descending order respectively." name="Alucard HotPlug">
-		<spinner description="This will decide maximum number of cores that can go online at any given time when screen is on. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 4." name="Max CPUs online (Screen ON)" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit">
-			<spinnerItem name="1 CORE" value="1"/>
-			<spinnerItem name="2 CORES" value="2"/>
-			<spinnerItem name="3 CORES" value="3"/>
-			<spinnerItem name="4 CORES" value="4"/>
+		<spinner description="Strict Mode will help to save max power with Intelli HotPlug since only one core will be in operation and rest three cores will shut down to save power." name="Strict Mode" action="generic /sys/kernel/intelli_plug/strict_mode_active">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
 		</spinner>
-		<spinner description="This will decide maximum number of cores that can go online at any given time when screen is off. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. Default 2." name="Max CPUs online (Screen OFF)" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit_sleep">
+		<spinner description="Wake boost will attempt setting ALL CPUs online and set to max frequency when device is resumed i.e. screen is turned on. This helps device to perform better." name="Wake Boost" action="generic /sys/kernel/intelli_plug/wake_boost_active">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+		</spinner>
+		<spinner description="This will decided no. of cores to be boosted when screen is touched. When this is set to 1 or when strict mode is active, touch boost is disabled.  Default 2." name="Touch Boosted CPUs" action="generic /sys/kernel/intelli_plug/touch_boosted_cpus">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>

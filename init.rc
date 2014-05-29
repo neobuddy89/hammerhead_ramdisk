@@ -459,7 +459,6 @@ service console /system/bin/sh
     disabled
     user shell
     group log
-    seclabel u:r:shell:s0
 
 service auditd /system/bin/auditd -k
     class main
