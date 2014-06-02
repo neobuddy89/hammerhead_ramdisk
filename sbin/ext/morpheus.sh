@@ -9,6 +9,7 @@ chmod -R 777 /tmp/;
 
 FILE_NAME=$0;
 DATA_DIR=/data/.chaos;
+WAS_ASLEEP="false";
 
 # ==============================================================
 # INITIATE
@@ -136,14 +137,15 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
+			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		fi;
 		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
 			/system/bin/start mpdecision
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
 		fi;
-		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
-			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
-		fi;
 	elif [ "$hotplug" == "msm_hotplug" ]; then
+		/system/bin/stop mpdecision
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
 		fi;
@@ -157,6 +159,7 @@ HOTPLUG_CONTROL()
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
 	elif [ "$hotplug" == "intelli" ]; then
+		/system/bin/stop mpdecision
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
 		fi;
@@ -170,6 +173,7 @@ HOTPLUG_CONTROL()
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 		fi;
 	elif [ "$hotplug" == "alucard" ]; then
+		/system/bin/stop mpdecision
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
 		fi;
@@ -203,6 +207,10 @@ ZRAM_CHECK()
 # ==============================================================
 AWAKE_MODE()
 {
+	if [ "$WAS_ASLEEP" == "false" ]; then
+		return;
+	fi;
+	WAS_ASLEEP="false";
 	CPUFREQ_FIX "awake";
 	THERMAL_CTRL "awake";
 	TOUCH_FIX;
@@ -218,6 +226,14 @@ SLEEP_MODE()
 	PROFILE=$(cat "$DATA_DIR"/.active.profile);
 	. "$DATA_DIR"/"$PROFILE".profile;
 
+	# wait 10 seconds before suspending to make sure device is really suspended
+	sleep 10;
+	if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
+		log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode deferred. ***";		
+		return;
+	fi;
+
+	WAS_ASLEEP="true";
 	TOUCH_FIX;
 	CROND_SAFETY;
 	CPUFREQ_FIX "sleep";
@@ -226,6 +242,12 @@ SLEEP_MODE()
 	HOTPLUG_CONTROL;
 	ZRAM_CHECK;
 	log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode activated. ***";
+
+	# Prevent worst case sleep
+	if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
+		WAS_ASLEEP="true";
+		AWAKE_MODE;
+	fi;
 }
 
 # ==============================================================
@@ -245,7 +267,7 @@ if [ "$morpheus_background_process" -eq "1" ]; then
 		AWAKE_MODE;
 
 		while [ "$(cat /sys/power/autosleep)" != "mem" ]; do
-			sleep "10";
+			sleep "3";
 		done;
 		# SLEEP state. All system to power save
 		SLEEP_MODE;
