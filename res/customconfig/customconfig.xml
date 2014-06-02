@@ -53,10 +53,9 @@
 		</spinner>
         </settingsPane>
 
-	<settingsPane description="When certain important tasks migrate from a fast CPU to a slow CPU, the frequency of the slow CPU is boosted to be at least as high as the fast CPU for a short duration. You can modify its behavior here. CPU Boost helps alleviating poor user experience. To disable CPU Boost, set Boost Duration and Input Event Boost Duration to 0ms." name="CPU Boost">
-		<seekBar description="This slider sets boost period for which CPU is boosted when task migrates to slower CPU. Default 10 ms." name="Boost Duration" action="generic /sys/module/cpu_boost/parameters/boost_ms" unit="ms" min="0" reversed="false" step="5" max="100"/>
-		<seekBar description="This slider sets period for which idle CPU is boosted whenever there are incoming input events. Default 40 ms." name="Input Event Boost Duration" action="generic /sys/module/cpu_boost/parameters/input_boost_ms" unit="ms" min="0" reversed="false" step="5" max="100"/>
+	<settingsPane description="When certain important tasks migrate from a fast CPU to a slow CPU, the frequency of the slow CPU is boosted to be at least as high as the fast CPU for a short duration. You can modify its behavior here. CPU Boost helps alleviating poor user experience. Please note, this boost helps elevating frequencies and doesn't play role in turning CPU cores on/off. To disable CPU Boost, use disabled option for below frequency." name="CPU Frequency Boost">
 		<spinner description="This sets frequency to which idle CPU is boosted whenever there are incoming input events. Should be lesser or equal to Sync Threshold. Default 1.497 GHz." name="Input Event Boost Frequency" action="genericfreq /sys/module/cpu_boost/parameters/input_boost_freq">
+			<spinnerItem name="Disabled" value="300000"/>
 			<spinnerItem name="1.190 GHz" value="1190400"/>
 			<spinnerItem name="1.267 GHz" value="1267200"/>
 			<spinnerItem name="1.497 GHz" value="1497600"/>
@@ -74,6 +73,16 @@
 			<spinnerItem name="1.958 GHz" value="1958400"/>
 			<spinnerItem name="2.265 GHz" value="2265600"/>
 		</spinner>
+		<spinner description="Hotplug Boost is similar to input boost but it occurs when CPUs turn online." name="Hotplug Boost" action="generic /sys/module/cpu_boost/parameters/hotplug_boost">
+			<spinnerItem name="Enabled" value="Y"/> 
+			<spinnerItem name="Disabled" value="N"/> 
+		</spinner>
+		<spinner description="Load Based Synchronization enables CPU boost to measure load on the device and boost the frequencies accordingly." name="Load Based Sync" action="generic /sys/module/cpu_boost/parameters/load_based_syncs">
+			<spinnerItem name="Enabled" value="Y"/> 
+			<spinnerItem name="Disabled" value="N"/> 
+		</spinner>
+		<seekBar description="This slider sets boost period for which CPU is boosted when task migrates to slower CPU. Default 10 ms." name="Boost Duration" action="generic /sys/module/cpu_boost/parameters/boost_ms" unit="ms" min="0" reversed="false" step="5" max="100"/>
+		<seekBar description="This slider sets period for which idle CPU is boosted whenever there are incoming input events. Default 40 ms." name="Input Event Boost Duration" action="generic /sys/module/cpu_boost/parameters/input_boost_ms" unit="ms" min="5" reversed="false" step="5" max="100"/>
 	</settingsPane>
 
 	<settingsPane description="You can change governor of your device here. Governor decides current frequency of your device accordingly." name="Governor control">
@@ -132,7 +141,14 @@
 	</settingsPane>
 
 	<settingsPane description="MSM HotPlug is default hotplug driver of this kernel where hotplugging is based on total load evaluation. You can fine tune MSM hotplugging driver on your device here." name="MSM HotPlug">
-		<spinner description="This will decide no. of cores to be boosted to share load on input event. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. Default 1." name="Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
+		<seekBar description="When MSM hotplug is suspended, all sibling cores go offline to save power. However, we don't need them to be suspended as soon as screen is off. Defer suspension by some delay. Default 10 seconds." name="Suspend Defer Time" action="generic /sys/module/msm_hotplug/suspend_defer_time" unit="seconds" min="0" reversed="false" step="1" max="90"/>
+		<spinner description="This will decided no. of cores to be boosted when screen is touched. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. When is is set to lesser or equal value of Min CPUs online, it is as good as disabled. Default 1." name="Touch Boosted CPUs" action="generic /sys/module/msm_hotplug/cpus_boosted">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
+		</spinner>
+		<spinner description="This will decide minimum number of cores that stays online when device is not suspended. Higher the number of cores, better the performance. This must be less than or equal to no. of Max CPUs online. Default 1." name="Min CPUs online" action="generic /sys/module/msm_hotplug/min_cpus_online">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>
