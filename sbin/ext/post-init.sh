@@ -9,8 +9,8 @@ BB=/sbin/busybox
 $BB mount -t rootfs -o remount,rw rootfs;
 $BB mount -o remount,rw /;
 $BB mount -o remount,rw,barrier=1 /system;
-$BB mount -o remount,rw,noatime,nosuid,nodev,barrier=1,data=ordered,noauto_da_alloc,journal_async_commit /data;
-$BB mount -o remount,rw,noatime,nosuid,nodev,barrier=1,data=ordered,noauto_da_alloc,journal_async_commit /cache;
+$BB mount -o remount,rw,noatime,nosuid,nodev,barrier=1,data=ordered,noauto_da_alloc,nomblk_io_submit,errors=continue /data;
+$BB mount -o remount,rw,noatime,nosuid,nodev,barrier=1,data=ordered,noauto_da_alloc,nomblk_io_submit,errors=continue /cache;
 
 # symlinks
 $BB ln -s /system/bin /bin
