@@ -189,16 +189,17 @@
 
 		<button description="Use this button to see what CPU Voltage is used right now!" name="Check Active CPU Voltage" action="push-actions/check_cpu_voltage" label="Check CPU Voltage"/>
 
-		<spinner description="CPU Voltage Selector for toggling between Stock Voltages and Custom Voltages customizable below." name="CPU Voltage Selector" action="cpu-voltage 100">
-			<spinnerItem name="Stock Voltages" value="off"/>
-			<spinnerItem name="Custom Voltages" value="on"/>
+		<spinner description="CPU Voltage Selector for selecting among system-chosen Voltages, best known Stock Voltages and Custom Voltages customizable below. Certain hardwares are not compatible with custom voltage settings, so keep this disabled if you are not confident about this." name="CPU Voltage Selector" action="cpu-voltage 100">
+			<spinnerItem name="Disabled" value="disabled"/>
+			<spinnerItem name="Stock Voltages" value="stock"/>
+			<spinnerItem name="Custom Voltages" value="custom"/>
 		</spinner>
 
 		<seekBar description="Negative Offset voltage will act on all levels and decrease voltage accordingly." name="Negative Offset Voltage" action="cpu-voltage 0" unit="mV" min="0" reversed="false" step="5" max="20"/>
 
 		<seekBar description="Positive Offset voltage will act on all levels and increase voltage accordingly." name="Positive Offset Voltage" action="cpu-voltage 50" unit="mV" min="0" reversed="false" step="5" max="20"/>
 
-		<seekBar description="Default 750 mV" name="CPU Voltage 300 MHz" action="cpu-voltage 1" unit="mV" min="750" reversed="false" step="5" max="825"/>
+		<seekBar description="Default 775 mV" name="CPU Voltage 300 MHz" action="cpu-voltage 1" unit="mV" min="750" reversed="false" step="5" max="850"/>
 
 		<seekBar description="Default 775 mV" name="CPU Voltage 422 MHz" action="cpu-voltage 2" unit="mV" min="750" reversed="false" step="5" max="850"/>
 
