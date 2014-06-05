@@ -185,13 +185,12 @@
 
 <settingsTab name="Voltage Control">
 
-	<settingsPane description="Voltage Range is 730~1225 mV. USE this interface AT YOUR OWN RISK! If you get SOD before you can load this interface and cannot fix your error, reset your profiles by flashing Chaos 11.0 nightly, reboot, reflash latest chaos kernel. And think harder before you SOD your CPU with too much UV or OV!     CAUTION: VOLTAGE STRUCTURE DIFFERS FOR SOME DEVICES, CLICK CHECK VOLTAGE BELOW AND CHECK WHETHER VOLTAGES LISTED ARE SAME DEFAULT VOLTAGES MENTIONED BELOW... IF THEY ARE NOT SAME, DO NOT USE NXTWEAKS TO CHANGE VOLTAGE... KEEP THIS DISABLED!!" name="CPU Voltage Controls">
+	<settingsPane description="Voltage Range is 730~1225 mV. USE this interface AT YOUR OWN RISK! If you get SOD before you can load this interface and cannot fix your error, reset your profiles by flashing Chaos 11.1, reboot, reflash latest chaos kernel. And think harder before you SOD your CPU with too much UV or OV!     CAUTION: VOLTAGE STRUCTURE DIFFERS FOR SOME DEVICES, CLICK CHECK VOLTAGE BELOW AND CHECK WHETHER VOLTAGES LISTED ARE SAME DEFAULT VOLTAGES MENTIONED BELOW... IF THEY ARE NOT SAME, DO NOT USE NXTWEAKS TO CHANGE VOLTAGE... KEEP THIS DISABLED!!" name="CPU Voltage Controls">
 
 		<button description="Use this button to see what CPU Voltage is used right now!" name="Check Active CPU Voltage" action="push-actions/check_cpu_voltage" label="Check CPU Voltage"/>
 
-		<spinner description="CPU Voltage Selector for selecting among system-chosen Voltages, best known Stock Voltages and Custom Voltages customizable below. READ CAUTION ABOVE BEFORE ENABLING THIS OPTION." name="CPU Voltage Selector" action="cpu-voltage 100">
+		<spinner description="CPU Voltage Selector for toggling among system-chosen Voltages and Custom Voltages customizable below. If you edited voltages via 'Custom' and wish to disable, then select 'Disabled' option, apply and reboot device. READ CAUTION ABOVE BEFORE ENABLING THIS OPTION." name="CPU Voltage Selector" action="cpu-voltage 100">
 			<spinnerItem name="Disabled" value="disabled"/>
-			<spinnerItem name="Stock Voltages" value="stock"/>
 			<spinnerItem name="Custom Voltages" value="custom"/>
 		</spinner>
 
