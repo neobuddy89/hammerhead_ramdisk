@@ -55,7 +55,7 @@
 
 	<settingsPane description="When certain important tasks migrate from a fast CPU to a slow CPU, the frequency of the slow CPU is boosted to be at least as high as the fast CPU for a short duration. You can modify its behavior here. CPU Boost helps alleviating poor user experience. Please note, this boost helps elevating frequencies and doesn't play role in turning CPU cores on/off. To disable CPU Boost, use disabled option for below frequency." name="CPU Frequency Boost">
 		<spinner description="This sets frequency to which idle CPU is boosted whenever there are incoming input events. Should be lesser or equal to Sync Threshold. Default 1.497 GHz." name="Input Event Boost Frequency" action="genericfreq /sys/module/cpu_boost/parameters/input_boost_freq">
-			<spinnerItem name="Disabled" value="300000"/>
+			<spinnerItem name="Disabled" value="0"/>
 			<spinnerItem name="1.190 GHz" value="1190400"/>
 			<spinnerItem name="1.267 GHz" value="1267200"/>
 			<spinnerItem name="1.497 GHz" value="1497600"/>

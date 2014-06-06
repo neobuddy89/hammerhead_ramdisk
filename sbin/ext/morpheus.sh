@@ -42,7 +42,13 @@ CPUFREQ_FIX()
 		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
 		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
 		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
+		echo "$input_boost_ms" > /sys/module/cpu_boost/parameters/input_boost_ms;
+		echo "$boost_ms" > /sys/module/cpu_boost/parameters/boost_ms;
+		echo "$input_boost_freq" > /sys/module/cpu_boost/parameters/input_boost_freq;
 	elif [ "$state" == "sleep" ]; then
+		echo "0" > /sys/module/cpu_boost/parameters/input_boost_freq;
+		echo "0" > /sys/module/cpu_boost/parameters/boost_ms;
+		echo "0" > /sys/module/cpu_boost/parameters/input_boost_ms;
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor

@@ -339,6 +339,9 @@ on property:sys.boot_completed=1
     start qrngp
     start postinit
 
+    # enable slimport detection
+    write /sys/module/slimport/parameters/enable_irq 1
+
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
