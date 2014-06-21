@@ -19,7 +19,7 @@ if [ "a$2" != "a" ]; then
 				case "${sound_control}" in
 					disabled)
 						rm -f /data/.chaos/.custom_sound 2> /dev/null;
-						echo "1" > /sys/kernel/sound_control_3/gpl_sound_control_locked;
+						echo "0" > /sys/kernel/sound_control_3/gpl_sound_control_locked;
 					;;
 					custom)
 						touch /data/.chaos/.custom_sound;

@@ -25,23 +25,10 @@ CPUFREQ_FIX()
 
 	if [ "$state" == "awake" ]; then
 		echo "$scheduler" > /sys/block/mmcblk0/queue/scheduler
-		if [ "$scaling_max_freq" -eq "2265600" ] && [ "$scaling_max_freq_oc" -gt "2265600" ]; then
-			MAX_FREQ="$scaling_max_freq_oc";	
-		else
-			MAX_FREQ="$scaling_max_freq";
-		fi;
-		echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-		echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
-		echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
-		echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-		echo "$scaling_min_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
 		echo "$input_boost_ms" > /sys/module/cpu_boost/parameters/input_boost_ms;
 		echo "$boost_ms" > /sys/module/cpu_boost/parameters/boost_ms;
 		echo "$input_boost_freq" > /sys/module/cpu_boost/parameters/input_boost_freq;
@@ -53,18 +40,12 @@ CPUFREQ_FIX()
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-		echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
-		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
-		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
-		echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
 		echo "$suspend_scheduler" > /sys/block/mmcblk0/queue/scheduler
 	fi;
 
-	log -p i -t "$FILE_NAME" "*** CPU IMMUNIZED FOR $state MODE ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** CPU IMMUNIZED FOR $state MODE ***";
+	fi;	
 }
 
 THERMAL_CTRL()
@@ -84,7 +65,9 @@ THERMAL_CTRL()
 	echo "$temp_hysteresis" > /sys/module/msm_thermal/parameters/temp_hysteresis
 	echo "$core_temp_hysteresis" > /sys/module/msm_thermal/parameters/core_temp_hysteresis
 
-	log -p i -t "$FILE_NAME" "*** THERMAL CONTROL IMMUNIZED FOR $state MODE ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** THERMAL CONTROL IMMUNIZED FOR $state MODE ***";
+	fi;
 }
 
 # if crond used, then give it root perent - if started by NXTweaks, then it will be killed in time
@@ -94,8 +77,9 @@ CROND_SAFETY()
 		pkill -f "crond";
 		/res/crontab_service/service.sh;
 
-		log -p i -t "$FILE_NAME" "*** CROND_SAFETY ***";
-
+		if [ "$log_mode" == "0" ]; then
+			log -p i -t "$FILE_NAME" "*** CROND_SAFETY ***";
+		fi;
 		return 1;
 	else
 		return 0;
@@ -113,7 +97,9 @@ MEM_CLEANER()
 		if [ "$MEM_USED_CALC" -gt "90" ]; then
 			sync;
 			sysctl -w vm.drop_caches=3;
-			log -p i -t "$FILE_NAME" "*** Morpheus: Memory hog detected and cleaned. ***";
+			if [ "$log_mode" == "0" ]; then
+				log -p i -t "$FILE_NAME" "*** Morpheus: Memory hog detected and cleaned. ***";
+			fi;
 		fi;
 	fi;
 }
@@ -127,8 +113,9 @@ TOUCH_FIX()
 	echo "$doubletap2wake_feather" > /sys/android_touch/doubletap2wake_feather;
 	echo "$s2w_s2sonly" > /sys/android_touch/s2w_s2sonly;
 	echo "$sweep2wake" > /sys/android_touch/sweep2wake;
-
-	log -p i -t "$FILE_NAME" "*** WAKE CONTROL IMMUNIZED ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** WAKE CONTROL IMMUNIZED ***";
+	fi;
 }
 
 HOTPLUG_CONTROL()
@@ -193,7 +180,9 @@ HOTPLUG_CONTROL()
 			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
 		fi;
 	fi;
-	log -p i -t "$FILE_NAME" "*** HOTPLUG CONTROL IMMUNIZED ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** HOTPLUG CONTROL IMMUNIZED ***";
+	fi;
 }
 
 
@@ -203,7 +192,9 @@ ZRAM_CHECK()
 		if [ -e /dev/block/zram0 ]; then
 			swapoff /dev/block/zram0 >/dev/null 2>&1;
 			echo "1" > /sys/block/zram0/reset;
-			log -p i -t "$FILE_NAME" "*** ZRAM IMMUNIZED ***";
+			if [ "$log_mode" == "0" ]; then
+				log -p i -t "$FILE_NAME" "*** ZRAM IMMUNIZED ***";
+			fi;
 		fi;
 	fi;
 }
@@ -220,7 +211,9 @@ AWAKE_MODE()
 	CPUFREQ_FIX "awake";
 	THERMAL_CTRL "awake";
 	TOUCH_FIX;
-	log -p i -t "$FILE_NAME" "*** Morpheus: Wake mode activated. ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** Morpheus: Wake mode activated. ***";
+	fi;
 }
 
 # ==============================================================
@@ -235,7 +228,9 @@ SLEEP_MODE()
 	# wait 10 seconds before suspending to make sure device is really suspended
 	sleep 10;
 	if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
-		log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode deferred. ***";		
+		if [ "$log_mode" == "0" ]; then
+			log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode deferred. ***";		
+		fi;
 		return;
 	fi;
 
@@ -247,7 +242,9 @@ SLEEP_MODE()
 	MEM_CLEANER;
 	HOTPLUG_CONTROL;
 	ZRAM_CHECK;
-	log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode activated. ***";
+	if [ "$log_mode" == "0" ]; then
+		log -p i -t "$FILE_NAME" "*** Morpheus: Sleep mode activated. ***";
+	fi;
 
 	# Prevent worst case sleep
 	if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
