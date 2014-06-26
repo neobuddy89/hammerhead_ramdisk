@@ -28,7 +28,7 @@ if [ "a$2" != "a" ]; then
 			echo "4" > /sys/kernel/intelli_plug/max_cpus_online;
 		;;
 		*)
-			max_cpus_online=1;
+			max_cpus_online=4;
 		;;
 	esac;
 fi;

@@ -156,15 +156,13 @@
 			<spinnerItem name="3 CORES" value="3"/>
 			<spinnerItem name="4 CORES" value="4"/>
 		</spinner>
-	</settingsPane>
-	<settingsPane description="MSM HotPlug is default hotplug driver of this kernel where hotplugging is based on total load evaluation. You can fine tune MSM hotplugging driver on your device here." name="MSM HotPlug">
-		<seekBar description="When MSM hotplug is suspended, all sibling cores go offline to save power. However, we don't need them to be suspended as soon as screen is off. Defer suspension by some delay. Default 10 seconds." name="Suspend Defer Time" action="generic /sys/module/msm_hotplug/suspend_defer_time" unit="seconds" min="0" reversed="false" step="1" max="90"/>
-	</settingsPane>
-	<settingsPane description="Intelli HotPlug is an intelligient hotplug driver for low-latency capable processors and hotplugging is based on task scheduler's algorithm. When device suspends, all sibling cores shut down. So, this hotplug technique is more power-friendly when device is idle." name="Intelli HotPlug">
-		<spinner description="Wake boost will attempt setting ALL CPUs online and set to max frequency when device is resumed i.e. screen is turned on. This helps device to perform better." name="Wake Boost" action="generic /sys/kernel/intelli_plug/wake_boost_active">
-			<spinnerItem name="Disabled" value="0"/>
-			<spinnerItem name="Enabled" value="1"/>
+		<spinner description="This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. Recommended value is greater than 1 to prevent background apps like Music player starving for CPU power and creating glitch. Min CPUs online will change to 1 itself when device is suspended after suspend defer time and restore back to normal value when device is resumed. Default 2." name="Max CPUs online (Suspend)" action="max_cpus_online_susp">
+			<spinnerItem name="1 CORE" value="1"/>
+			<spinnerItem name="2 CORES" value="2"/>
+			<spinnerItem name="3 CORES" value="3"/>
+			<spinnerItem name="4 CORES" value="4"/>
 		</spinner>
+		<seekBar description="When hotplug is suspended, all sibling cores go offline to save power. However, we don't need them to be suspended as soon as screen is off. Defer suspension by some delay. Default 10 seconds." name="Suspend Defer Time" action="suspend_defer_time" unit="seconds" min="0" reversed="false" step="1" max="90"/>
 	</settingsPane>
 </settingsTab>
 

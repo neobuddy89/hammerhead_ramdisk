@@ -29,13 +29,7 @@ CPUFREQ_FIX()
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
 		echo "$scaling_governor" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
-		echo "$input_boost_ms" > /sys/module/cpu_boost/parameters/input_boost_ms;
-		echo "$boost_ms" > /sys/module/cpu_boost/parameters/boost_ms;
-		echo "$input_boost_freq" > /sys/module/cpu_boost/parameters/input_boost_freq;
 	elif [ "$state" == "sleep" ]; then
-		echo "0" > /sys/module/cpu_boost/parameters/input_boost_freq;
-		echo "0" > /sys/module/cpu_boost/parameters/boost_ms;
-		echo "0" > /sys/module/cpu_boost/parameters/input_boost_ms;
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 		echo "$scaling_suspend_governor" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
@@ -210,7 +204,7 @@ AWAKE_MODE()
 	WAS_ASLEEP="false";
 	CPUFREQ_FIX "awake";
 	THERMAL_CTRL "awake";
-	TOUCH_FIX;
+#	TOUCH_FIX;
 	if [ "$log_mode" == "0" ]; then
 		log -p i -t "$FILE_NAME" "*** Morpheus: Wake mode activated. ***";
 	fi;
@@ -235,7 +229,7 @@ SLEEP_MODE()
 	fi;
 
 	WAS_ASLEEP="true";
-	TOUCH_FIX;
+#	TOUCH_FIX;
 	CROND_SAFETY;
 	CPUFREQ_FIX "sleep";
 	THERMAL_CTRL "sleep";
