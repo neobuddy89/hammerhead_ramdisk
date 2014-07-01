@@ -34,8 +34,6 @@ echo "-600" > /proc/"$PIDOFINIT"/oom_score_adj;
 
 # Chaos specific tweaks
 echo "0" > /proc/sys/kernel/panic_on_oops;
-echo "200" > /proc/sys/vm/dirty_expire_centisecs;
-echo "20" > /proc/sys/vm/dirty_background_ratio;
 #echo "2" > /proc/sys/kernel/sysrq;
 #echo "0" > /proc/sys/kernel/kptr_restrict;
 
@@ -87,11 +85,11 @@ PROFILE=`cat /data/.chaos/.active.profile`;
 source /data/.chaos/${PROFILE}.profile;
 
 # Let morpheus watch over
-#if [ $(pgrep -f "morpheus.sh" | wc -l) -eq "0" ]; then
-#	nohup /sbin/ext/morpheus.sh > /dev/null 2>&1;
-#fi;
-#CORTEX=$(pgrep -f "/sbin/ext/morpheus.sh");
-#echo "-900" > /proc/"$CORTEX"/oom_score_adj;
+if [ $(pgrep -f "morpheus.sh" | wc -l) -eq "0" ]; then
+	nohup /sbin/ext/morpheus.sh > /dev/null 2>&1;
+fi;
+CORTEX=$(pgrep -f "/sbin/ext/morpheus.sh");
+echo "-900" > /proc/"$CORTEX"/oom_score_adj;
 
 (
 	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
