@@ -13,9 +13,6 @@ read_defaults;
 # read the config from the active profile
 read_config;
 
-/sbin/busybox mount -o remount,rw /
-/sbin/busybox mount -o remount,rw /system
-
 case "${1}" in
 	rename)
     	rename_profile "${2}" "${3}";

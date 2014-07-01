@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/system/xbin/bash
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 BB=/sbin/busybox
@@ -101,4 +101,3 @@ else
 	# Anti smart user protection! multi run of this script will bring HELL!
 	echo "A profile restoration is already in process. Please try later.";
 fi;
-

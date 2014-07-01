@@ -8,11 +8,11 @@ import /init.environ.rc
 import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.trace.rc
-import /init.chaos.rc
+import /init.carrier.rc
 
 on early-init
-    # Set init and its forked children's oom_score_adj.
-    write /proc/1/oom_score_adj -1000
+    # Set init and its forked children's oom_adj.
+    write /proc/1/oom_adj -16
 
     # Set the security context for the init process.
     # This should occur before anything else (e.g. ueventd) is started.
@@ -98,7 +98,7 @@ loglevel 3
     mkdir /mnt/fuse 0700 root system
     mount tmpfs tmpfs /mnt/fuse mode=0775,gid=1000
 
-    write /proc/sys/kernel/panic_on_oops 0
+    write /proc/sys/kernel/panic_on_oops 1
     write /proc/sys/kernel/hung_task_timeout_secs 0
     write /proc/cpu/alignment 4
     write /proc/sys/kernel/sched_latency_ns 10000000
@@ -107,7 +107,7 @@ loglevel 3
     write /proc/sys/kernel/sched_child_runs_first 0
     write /proc/sys/kernel/randomize_va_space 2
     write /proc/sys/kernel/kptr_restrict 2
-    write /proc/sys/kernel/dmesg_restrict 0
+    write /proc/sys/kernel/dmesg_restrict 1
     write /proc/sys/vm/mmap_min_addr 32768
     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
     write /proc/sys/kernel/sched_rt_runtime_us 950000
@@ -158,7 +158,8 @@ loglevel 3
     chmod 0440 /sys/fs/pstore/console-ramoops
 
 on post-fs
-    mount rootfs rootfs / rw remount
+    # once everything is setup, no need to modify /
+    mount rootfs rootfs / ro remount
     # mount shared so changes propagate into child namespaces
     mount rootfs rootfs / shared rec
 
@@ -239,7 +240,6 @@ on post-fs-data
     chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/local 0751 root root
     mkdir /data/misc/media 0700 media media
-    # restorecon_recursive /data/misc/media
 
     # For security reasons, /data/local/tmp should always be empty.
     # Do not place files or directories in /data/local/tmp
@@ -293,6 +293,9 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
+# Include extra init file
+    import /init.chaos.rc
+
 on boot
 # basic network init
     ifup lo
@@ -314,7 +317,7 @@ on boot
 
     # Tweak background writeout
     write /proc/sys/vm/dirty_expire_centisecs 200
-    write /proc/sys/vm/dirty_background_ratio 20
+    write /proc/sys/vm/dirty_background_ratio  5
 
     # Permissions for System Server and daemons.
     chown radio system /sys/android_power/state
@@ -449,6 +452,7 @@ on property:sys.sysctl.extra_free_kbytes=*
 on property:sys.sysctl.tcp_def_init_rwnd=*
     write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
 
+
 ## Daemon processes to be run by init.
 ##
 service ueventd /sbin/ueventd
@@ -472,6 +476,7 @@ service console /system/bin/sh
     disabled
     user shell
     group log
+    seclabel u:r:shell:s0
 
 service auditd /system/bin/auditd -k
     class main
@@ -603,26 +608,5 @@ service mdnsd /system/bin/mdnsd
     user mdnsr
     group inet net_raw
     socket mdnsd stream 0660 mdnsr inet
-    disabled
-    oneshot
-
-service qrngp /system/bin/qrngp
-    class main
-    user root
-    group root
-    oneshot
-    disabled
-
-service postinit /sbin/ext/post-init.sh
-    class late_start
-    user root
-    group root
-    disabled
-    oneshot
-
-service postinstall /sbin/ext/install.sh
-    class late_start
-    user root
-    group root
     disabled
     oneshot

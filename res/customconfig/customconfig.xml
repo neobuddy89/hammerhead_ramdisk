@@ -1,10 +1,14 @@
 <settingsRoot>
 <settingsTab name="CPU Control">
 
-	<settingsPane description="Workqueues Tuning" name="Workqueues">
+	<settingsPane description="Misc Tuning" name="Misc Tuning">
 		<spinner description="Enabling Power-efficient Workqueues will help to reduce power consumption at the cost of slight performance overhead. By enabling this, PE workqueues are used for unbound scheduled work to save load on sibling CPU cores and queuing work on CPU 0." name="PE WQ" action="generic /sys/module/workqueue/parameters/power_efficient">
 			<spinnerItem name="Disabled" value="N"/>
 			<spinnerItem name="Enabled" value="Y"/>
+		</spinner>
+		<spinner description="Arch Power is experimental feature which uses ARM topology to scale power for each CPU. Theoretically, this should be more power efficient for ARM devices." name="Arch Power (Experimental)" action="generic sys/kernel/sched/arch_power">
+			<spinnerItem name="Enabled" value="1"/> 
+			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 	</settingsPane>
 	<settingsPane description="You can change max and min frequencies of your device here. 1.190 GHz is the minimum limit of max frequency as below this frequency your device may suffer from high performance degradation. 1.036 GHz is the maximum limit of min frequency as above this frequency your device may not cool down. (Default: Max 2.265 GHz, Min 300 MHz)" name="CPU Frequency control">
@@ -69,7 +73,11 @@
 			<spinnerItem name="1.958 GHz" value="1958400"/>
 			<spinnerItem name="2.265 GHz" value="2265600"/>
 		</spinner>
-		<spinner description="Hotplug Boost is similar to input boost but it occurs when CPUs turn online." name="Hotplug Boost" action="generic /sys/module/cpu_boost/parameters/hotplug_boost">
+		<spinner description="Hotplug Boost is similar to input boost but it occurs when CPUs go online." name="Hotplug Boost" action="generic /sys/module/cpu_boost/parameters/hotplug_boost">
+			<spinnerItem name="Enabled" value="Y"/> 
+			<spinnerItem name="Disabled" value="N"/> 
+		</spinner>
+		<spinner description="Wakeup Boost is similar to input boost but it occurs when screen is turned on." name="Wakeup Boost" action="generic /sys/module/cpu_boost/parameters/wakeup_boost">
 			<spinnerItem name="Enabled" value="Y"/> 
 			<spinnerItem name="Disabled" value="N"/> 
 		</spinner>
@@ -162,7 +170,12 @@
 			<spinnerItem name="3 CORES" value="3"/>
 			<spinnerItem name="4 CORES" value="4"/>
 		</spinner>
-		<seekBar description="When hotplug is suspended, all sibling cores go offline to save power. However, we don't need them to be suspended as soon as screen is off. Defer suspension by some delay. Default 10 seconds." name="Suspend Defer Time" action="suspend_defer_time" unit="seconds" min="0" reversed="false" step="1" max="90"/>
+		<seekBar description="When device is suspended, sibling cores go offline to save power. However, we don't need them to go offline as soon as the screen is off. Defer suspension by some delay. Default 10 seconds." name="Suspend Defer Time" action="suspend_defer_time" unit="seconds" min="0" reversed="false" step="1" max="90"/>
+		<spinner description="Full mode profile is specific to Intelli Hotplug with Max CPUs Online = 4. This changes behavior of Intelli Hotplug to perform accordingly." name="Full Mode Profile" action="generic /sys/kernel/intelli_plug/full_mode_profile">
+			<spinnerItem name="Balanced" value="0"/>
+			<spinnerItem name="Performance" value="1"/>
+			<spinnerItem name="Conservative" value="2"/>
+		</spinner>
 	</settingsPane>
 </settingsTab>
 

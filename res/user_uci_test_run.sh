@@ -3,7 +3,6 @@
 
 # stop uci.sh from running all the PUSH Buttons in stweaks on boot
 /sbin/busybox mount -o remount,rw /;
-/sbin/busybox mount -o remount,rw /system;
 chown -R root:system /res/customconfig/actions/;
 chmod -R 6755 /res/customconfig/actions/;
 NXTWEAKSAPP_RUNNING=$(pgrep -f "com.gokhanmoral.stweaks.app" | wc -l)

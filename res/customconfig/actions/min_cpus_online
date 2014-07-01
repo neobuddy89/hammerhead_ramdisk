@@ -1,4 +1,4 @@
-#!/system/xbin/bash
+#!/sbin/busybox sh
 
 # $1 - "min_cpus_online"
 # $2 - value=

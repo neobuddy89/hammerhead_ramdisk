@@ -198,18 +198,18 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "ondemand"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "ondemand"
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 95
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
     write /sys/devices/system/cpu/cpufreq/ondemand/down_differential 10
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core 70
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core 75
     write /sys/devices/system/cpu/cpufreq/ondemand/down_differential_multi_core 3
     write /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq 960000
     write /sys/devices/system/cpu/cpufreq/ondemand/sync_freq 960000
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load 80
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load 85
 
-#   write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
+    # write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
@@ -221,11 +221,11 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time "40000 1700000:80000"
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate "40000 500000:30000 1700000:20000"
-    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load 70
-    write /sys/devices/system/cpu/cpufreq/interactive/sync_freq 1036800
-    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1190400
     write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 100000
     write /sys/devices/system/cpu/cpufreq/interactive/timer_slack "-1 800000:30000 1100000:40000 1700000:20000"
+    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load 50
+    write /sys/devices/system/cpu/cpufreq/interactive/sync_freq 1036800
+    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1190400
     write /sys/module/cpu_boost/parameters/boost_ms 10
     write /sys/module/cpu_boost/parameters/sync_threshold 1728000
     write /sys/module/cpu_boost/parameters/input_boost_freq 1497600
@@ -238,10 +238,6 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
     chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     # write /sys/module/msm_thermal/core_control/enabled 1
@@ -269,8 +265,6 @@ on post-fs-data
     # Torch
     chown system camera /sys/class/leds/led:flash_torch/brightness
     chmod 0660 /sys/class/leds/led:flash_torch/brightness
-
-    start postinstall
 
 on charger
     # Booting modem
@@ -300,15 +294,11 @@ on charger
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
-#    write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/module/msm_thermal/core_control/enabled 1
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
-#    start mpdecision
+    start mpdecision
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
@@ -336,11 +326,9 @@ on property:sys.boot_completed=1
     write /sys/module/msm_pm/modes/cpu1/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu2/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu3/retention/idle_enabled 1
-#    start mpdecision
-    start qrngp
-    start postinit
+    start mpdecision
 
-    # enable slimport detection
+# enable slimport detection
     write /sys/module/slimport/parameters/enable_irq 1
 
 service rmt_storage /system/bin/rmt_storage
@@ -486,11 +474,11 @@ service bugreport /system/bin/dumpstate -d -p -B \
     oneshot
     keycodes 114 115 116
 
-service mpdecision /system/bin/mpdecision --avg_comp
-   class main
-   user root
-   group root system
-   disabled
+service mpdecision /sbin/mpdecision --avg_comp
+    class main
+    user root
+    group root system
+    disabled
 
 service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
     class main
@@ -518,3 +506,13 @@ service qrngd /system/bin/qrngd -f
     class main
     user root
     group root
+
+service qrngp /system/bin/qrngp
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+
+on property:sys.boot_completed=1
+    start qrngp

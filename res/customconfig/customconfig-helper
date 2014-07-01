@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/system/xbin/bash
 
 DEFAULT_PROFILE="/res/customconfig/default.profile";
 BATTERY_PROFILE="/res/customconfig/battery.profile";

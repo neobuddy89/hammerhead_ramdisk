@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/system/busybox sh
 
 if [ "a$2" == "a" ]; then
 	echo "$config_backup_restore";
