@@ -1,5 +1,4 @@
 #!/system/xbin/bash
-#From Darky's zipalign - Modified to make it actually work.
 
 (
 PROFILE=`cat /data/.chaos/.active.profile`;
@@ -27,11 +26,6 @@ if [ "$cron_zipalign" == "on" ]; then
 		LOG_FILE=/data/zipalign.log;
 		ZIPALIGNDB=/data/zipalign.db;
 
-		if [ ! -e /system/xbin/zipalign ]; then
-			cp /res/misc/zipalign /system/xbin/zipalign;
-			chmod 755 /system/xbin/zipalign;
-		fi;
-
 		if [ -e $LOG_FILE ]; then
 			rm $LOG_FILE;
 		fi;
@@ -48,11 +42,11 @@ if [ "$cron_zipalign" == "on" ]; then
 				if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB | wc -l) -gt 0 ]; then
 					echo "Already checked: $DIR/$APK" | tee -a $LOG_FILE;
 				else
-					ZIPCHECK=`/system/xbin/zipalign -c -v 4 $APK | grep FAILED | wc -l`;
+					ZIPCHECK=`/sbin/zipalign -c -v 4 $APK | grep FAILED | wc -l`;
 
 					if [ $ZIPCHECK -eq "1" ]; then
 						echo "Now aligning: $DIR/$APK" | tee -a $LOG_FILE;
-						/system/xbin/zipalign -v -f 4 $APK /data/local/$APK;
+						/sbin/zipalign -v -f 4 $APK /data/local/$APK;
 						cp -f -p /data/local/$APK $APK;
 						grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
 					else
