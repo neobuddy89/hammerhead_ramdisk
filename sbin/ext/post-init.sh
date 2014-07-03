@@ -27,10 +27,8 @@ rm -f $LOCK_FILE > /dev/null;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 
-# Protect important processes from OOM
+# Protect important process from OOM
 echo "-1000" > /proc/1/oom_score_adj;
-PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
-echo "-600" > /proc/"$PIDOFINIT"/oom_score_adj;
 
 # Chaos specific tweaks
 echo "0" > /proc/sys/kernel/panic_on_oops;
@@ -83,13 +81,6 @@ read_defaults;
 read_config;
 PROFILE=`cat /data/.chaos/.active.profile`;
 source /data/.chaos/${PROFILE}.profile;
-
-# Let morpheus watch over
-if [ $(pgrep -f "morpheus.sh" | wc -l) -eq "0" ]; then
-	nohup /sbin/ext/morpheus.sh > /dev/null 2>&1;
-fi;
-CORTEX=$(pgrep -f "/sbin/ext/morpheus.sh");
-echo "-900" > /proc/"$CORTEX"/oom_score_adj;
 
 (
 	# stop uci.sh from running all the PUSH Buttons in stweaks on boot

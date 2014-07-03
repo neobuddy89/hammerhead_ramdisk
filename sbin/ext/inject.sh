@@ -27,14 +27,14 @@ if [ -f /data/app/NXTweaks.apk ]; then
 		$BB rm -f /data/data/com.gokhanmoral.stweaks*/* > /dev/null 2>&1;
 		$BB rm -f /data/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
 		$BB rm -f /cache/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
-		$BB cp /res/misc/payload/NXTweaks.apk /data/app/;
+		$BB cp -f /res/misc/payload/NXTweaks.apk /data/app/;
 	fi;
 else
 	$BB rm -f /data/app/com.gokhanmoral.*weak*.apk > /dev/null 2>&1;
 	$BB rm -r /data/data/com.gokhanmoral.*weak*/* > /dev/null 2>&1;
 	$BB rm -f /data/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
 	$BB rm -f /cache/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
-	$BB cp -a /res/misc/payload/NXTweaks.apk /data/app/;
+	$BB cp -f /res/misc/payload/NXTweaks.apk /data/app/;
 fi;
 
 # Apply permissions

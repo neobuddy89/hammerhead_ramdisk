@@ -105,31 +105,10 @@
 			<spinnerItem name="Pegasusq" value="pegasusq"/>
 			<spinnerItem name="Performance" value="performance"/>
 		</spinner>
-		<spinner description="This will set the active CPU governor when screen is off." name="Default CPU Sleep Governor" action="generic_cortex /tmp/scaling_suspend_governor">
-			<spinnerItem name="Conservative" value="conservative"/>
-			<spinnerItem name="Intelliactive" value="intelliactive"/>
-			<spinnerItem name="Intellidemand (TEST)" value="intellidemand"/>
-			<spinnerItem name="Interactive" value="interactive"/>
-			<spinnerItem name="Hyper" value="HYPER"/>
-			<spinnerItem name="Nightmare" value="nightmare"/>
-			<spinnerItem name="Ondemand (TEST)" value="ondemand"/>
-			<spinnerItem name="Pegasusq" value="pegasusq"/>
-			<spinnerItem name="Performance" value="performance"/>
-		</spinner>
 	</settingsPane>
 
 	<settingsPane description="You can change CPU IO scheduler of your device here." name="CPU IO Scheduler control">
 		<spinner description="This will set the default IO scheduler for internal, system, data and external sdcard." name="Default IO Scheduler" action="generic /sys/block/mmcblk0/queue/scheduler">
-			<spinnerItem name="BFQ" value="bfq"/>
-			<spinnerItem name="CFQ" value="cfq"/>
-			<spinnerItem name="Deadline" value="deadline"/>
-			<spinnerItem name="FIOPS" value="fiops"/>
-			<spinnerItem name="ROW" value="row"/>
-			<spinnerItem name="SIO" value="sio"/>
-			<spinnerItem name="VR" value="vr"/>
-			<spinnerItem name="ZEN" value="zen"/>
-		</spinner>
-		<spinner description="This will set the default IO scheduler for internal, system, data and external sdcard when screen is off." name="Default IO Sleep Scheduler" action="generic_cortex /tmp/suspend_scheduler">
 			<spinnerItem name="BFQ" value="bfq"/>
 			<spinnerItem name="CFQ" value="cfq"/>
 			<spinnerItem name="Deadline" value="deadline"/>
@@ -410,11 +389,7 @@
 
 		<seekBar description="This slider sets device temperature limit at which throttling will start. Stock 60. Recommended 70." name="Frequency Throttle Temperature" action="generic /sys/module/msm_thermal/parameters/limit_temp" unit="C" min="60" reversed="false" step="1" max="95"/>
 
-		<seekBar description="This slider sets device temperature limit at which throttling will start when screen is off. Stock 60. Recommended 65." name="Frequency Throttle Suspend Temperature" action="generic_cortex /tmp/limit_temp_suspend" unit="C" min="60" reversed="false" step="1" max="95"/>
-
 		<seekBar description="This slider sets core temperature limit at which throttling will start. Stock 80. Recommended 110. Cores should not be throttled, frequency should be throttled to control temperature." name="Core Throttle Temperature" action="generic /sys/module/msm_thermal/parameters/core_limit_temp" unit="C" min="70" reversed="false" step="1" max="110"/>
-
-		<seekBar description="This slider sets core temperature limit at which throttling will start when screen is off. Stock 80. Recommended 90." name="Core Throttle Suspend Temperature" action="generic_cortex /tmp/core_limit_temp_suspend" unit="C" min="70" reversed="false" step="1" max="110"/>
 
 	</settingsPane>
 
@@ -434,16 +409,6 @@
 
 <settingsTab name="Tweaks">
 	<settingsPane description="This section controls kernel tweaks of the device." name="Kernel Tweaks">
-
-		<spinner description="Enable or Disable the background-process 'Morpheus'. If you disable it, you may lose the function that set different settings for screen state (ON or OFF). We recommend to leave this option enabled to protect CPU frequency overrides, save more power." name="Morpheus Mode" action="morpheus_background_process">
-			<spinnerItem name="Morpheus give me RED pill!" value="1"/> 
-			<spinnerItem name="Morpheus go away!" value="0"/> 
-		</spinner>
-
-		<spinner description="When enabled, morpheus will check cached RAM when screen off and will clean cache if consumption is more than 90%. This will prevent memory hog, if any." name="Memory Cleaner Tweak" action="generic_cortex /tmp/morpheus_memcleaner">
-			<spinnerItem name="Enabled" value="on"/> 
-			<spinnerItem name="Disabled" value="off"/> 
-		</spinner>
 
 		<spinner description="This loads well known color profiles to achieve gamma correction better than stock. Not recommended to use with below color preset. This option is for users who don't wish to calibrate gamma using calibration app. We will add new profiles based on suggestions and tested results. After loading the color profile turn screen off and then on to see effect." name="Color Profiles" action="color_profile">
 			<spinnerItem name="Disabled" value="Disabled"/>
