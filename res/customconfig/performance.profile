@@ -1,5 +1,6 @@
 power_efficient=N
 arch_power=0
+limiter_enabled=0
 resume_max_freq=2265600
 scaling_min_freq=300000
 scaling_max_freq_oc=2496000
@@ -57,7 +58,7 @@ comp_algorithm=lzo
 swappiness=0
 ksm_control=on
 deferred_timer=1
-morpheus_background_process=1
+morpheus_background_process=0
 morpheus_memcleaner=on
 color_profile=Disabled
 color_preset=0

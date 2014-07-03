@@ -1,5 +1,6 @@
 power_efficient=N
 arch_power=0
+limiter_enabled=0
 resume_max_freq=2265600
 scaling_min_freq=300000
 scaling_max_freq_oc=2265600
