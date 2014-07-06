@@ -32,6 +32,7 @@ on boot
     write /sys/kernel/mm/ksm/pages_to_scan 256
     write /sys/kernel/mm/ksm/deferred_timer 1
 
+on property:sys.boot_completed=1
     # Let the Chaos Begin!
     exec /sbin/ext/inject.sh
 
