@@ -16,19 +16,19 @@ read_config;
 case "${1}" in
 	rename)
     	rename_profile "${2}" "${3}";
-    ;;
+	;;
 	delete)
     	delete_profile "${2}";
-    ;;
+	;;
 	select)
     	select_profile "${2}";
-    ;;
+	;;
 	config)
     	print_config;
-    ;;
+	;;
 	list)
     	list_profile;
-    ;;
+	;;
 	apply)
 		apply_config;
 		write_config;
