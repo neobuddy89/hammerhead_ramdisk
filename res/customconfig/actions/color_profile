@@ -61,6 +61,15 @@ case "${color_profile}" in
 		echo "0 12 19 30 39 48 56 72 83 105 121 134 119 113 110 98 78 72 59 50 44 36 22" > /sys/module/dsi_panel/kgamma_rp;
 		echo "32" > /sys/module/dsi_panel/kgamma_w;
 	;;
+	Yorici_Punch)
+		echo "0 14 19 33 41 46 60 77 88 105 116 123 125 119 111 95 76 57 41 36 24 15 5" > /sys/module/dsi_panel/kgamma_bn;
+		echo "0 14 18 31 41 47 59 77 88 105 116 125 125 119 111 95 75 56 48 37 26 15 5" > /sys/module/dsi_panel/kgamma_bp;
+		echo "0 20 31 43 50 57 67 84 95 111 120 128 122 116 109 93 73 55 41 34 24 10 5" > /sys/module/dsi_panel/kgamma_gn;
+		echo "0 20 30 43 50 57 67 85 95 110 121 128 122 116 108 94 74 55 43 35 26 10 5" > /sys/module/dsi_panel/kgamma_gp;
+		echo "0 18 23 36 45 54 63 81 91 107 118 126 124 118 110 93 73 56 43 36 25 10 5" > /sys/module/dsi_panel/kgamma_rn;
+		echo "0 18 23 36 45 54 63 80 91 107 118 126 124 118 110 94 74 57 43 35 26 10 5" > /sys/module/dsi_panel/kgamma_rp;
+		echo "31" > /sys/module/dsi_panel/kgamma_w;
+	;;
 	*)
 		color_profile=Disabled;
 	;;

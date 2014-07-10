@@ -417,6 +417,7 @@
 			<spinnerItem name="Piereligio TrueRGB V7" value="Piereligio_TrueRGBv7"/>
 			<spinnerItem name="The Gingerbread Man V4" value="The_Gingerbread_Man_V4"/>
 			<spinnerItem name="Vomer V3" value="Vomer_V3"/>
+			<spinnerItem name="Yorici Calibrated Punch" value="Yorici_Punch"/>
 		</spinner>
 
 		<spinner description="There are two color presets: stock and slightly cooler. When this option is enabled you will have slighly cooler and vivid color preset. For changes to take effect use power button to lock screen off and then on." name="Color Tweak" action="generic /sys/module/mdss_dsi/parameters/color_preset">
