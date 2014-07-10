@@ -426,6 +426,14 @@
 			<spinnerItem name="Vivid" value="1"/> 
 		</spinner>
 
+		<spinner description="Here you can select TCP congestion control method of your choice. CUBIC is stock default. HTCP is chaos kernel default and recommended one. If you are unaware about congestion control, do not change this setting." name="Net Congestion Control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
+			<spinnerItem name="BIC" value="bic"/> 
+			<spinnerItem name="CUBIC" value="cubic"/> 
+			<spinnerItem name="HTCP" value="htcp"/> 
+			<spinnerItem name="RENO" value="reno"/> 
+			<spinnerItem name="WESTWOOD" value="westwood"/> 
+		</spinner>
+
 		<spinner description="This controls app logger module (logcat), if set to auto mode - logger will turn off when screen is turned off to contribute some power saving. Keep it disabled if you don't check logcat anytime." name="Logger Control" action="generic /sys/module/logger/parameters/log_mode">
 			<spinnerItem name="Disabled" value="2"/>
 			<spinnerItem name="Always on" value="0"/>

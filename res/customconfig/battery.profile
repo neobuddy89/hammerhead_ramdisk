@@ -58,6 +58,7 @@ dirty_ratio=40
 dirty_background_ratio=20
 color_profile=Disabled
 color_preset=0
+tcp_congestion_control=htcp
 log_mode=2
 logger=off
 amp=75

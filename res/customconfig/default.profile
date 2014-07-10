@@ -58,6 +58,7 @@ ksm_control=off
 deferred_timer=1
 color_profile=Disabled
 color_preset=0
+tcp_congestion_control=htcp
 log_mode=2
 logger=off
 amp=75
