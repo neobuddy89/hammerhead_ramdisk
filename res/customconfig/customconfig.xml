@@ -6,10 +6,6 @@
 			<spinnerItem name="Disabled" value="N"/>
 			<spinnerItem name="Enabled" value="Y"/>
 		</spinner>
-		<spinner description="Arch Power is experimental feature which uses ARM topology to scale power for each CPU. Theoretically, this should be more power efficient for ARM devices." name="Arch Power (Experimental)" action="generic sys/kernel/sched/arch_power">
-			<spinnerItem name="Enabled" value="1"/> 
-			<spinnerItem name="Disabled" value="0"/> 
-		</spinner>
 	</settingsPane>
 	<settingsPane description="You can change max and min frequencies of your device here. 1.190 GHz is the minimum limit of max frequency as below this frequency your device may suffer from high performance degradation. 1.036 GHz is the maximum limit of min frequency as above this frequency your device may not cool down. (Default: Max 2.265 GHz, Min 300 MHz)" name="CPU Frequency control">
 		<spinner description="This is master switch which enables overriding and changing max frequencies on system suspend/resume. If you are using external app to set max-min frequency, keep this driver disabled." name="Limiter Driver" action="generic /sys/kernel/msm_limiter/limiter_enabled">
@@ -101,7 +97,6 @@
 			<spinnerItem name="Interactive" value="interactive"/>
 			<spinnerItem name="Hyper" value="HYPER"/>
 			<spinnerItem name="Nightmare" value="nightmare"/>
-			<spinnerItem name="Ondemand (TEST)" value="ondemand"/>
 			<spinnerItem name="Pegasusq" value="pegasusq"/>
 			<spinnerItem name="Performance" value="performance"/>
 		</spinner>
@@ -164,7 +159,7 @@
 
 <settingsTab name="Voltage Control">
 
-	<settingsPane description="Voltage Range is 730~1225 mV. USE this interface AT YOUR OWN RISK! If you get SOD before you can load this interface and cannot fix your error, reset your profiles by flashing Chaos 11.1, reboot, reflash latest chaos kernel. And think harder before you SOD your CPU with too much UV or OV!     CAUTION: VOLTAGE STRUCTURE DIFFERS FOR SOME DEVICES, CLICK CHECK VOLTAGE BELOW AND CHECK WHETHER VOLTAGES LISTED ARE SAME DEFAULT VOLTAGES MENTIONED BELOW... IF THEY ARE NOT SAME, DO NOT USE NXTWEAKS TO CHANGE VOLTAGE... KEEP THIS DISABLED!!" name="CPU Voltage Controls">
+	<settingsPane description="Voltage Range is 730~1225 mV. USE this interface AT YOUR OWN RISK! If you get SOD before you can load this interface and cannot fix your error, reset your profiles by flashing Chaos 12.0, reboot, reflash latest chaos kernel. And think harder before you SOD your CPU with too much UV or OV!     CAUTION: VOLTAGE STRUCTURE DIFFERS FOR SOME DEVICES, CLICK CHECK VOLTAGE BELOW AND CHECK WHETHER VOLTAGES LISTED ARE SAME DEFAULT VOLTAGES MENTIONED BELOW... IF THEY ARE NOT SAME, DO NOT USE NXTWEAKS TO CHANGE VOLTAGE... KEEP THIS DISABLED!!" name="CPU Voltage Controls">
 
 		<button description="Use this button to see what CPU Voltage is used right now!" name="Check Active CPU Voltage" action="push-actions/check_cpu_voltage" label="Check CPU Voltage"/>
 
