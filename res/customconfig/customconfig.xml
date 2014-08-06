@@ -124,7 +124,7 @@
 			<spinnerItem name="MSM HotPlug" value="msm_hotplug"/> 
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>
-		<spinner description="This will decided no. of cores to be boosted when screen is touched. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. When is is set to lesser or equal value of Min CPUs online, it is as good as disabled. Default 1." name="Touch Boosted CPUs" action="cpus_boosted">
+		<spinner description="This will decided no. of cores to be boosted when screen is touched. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. When is is set to lesser or equal value of Min CPUs online, it is as good as disabled. Default 2." name="Touch Boosted CPUs" action="cpus_boosted">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>
