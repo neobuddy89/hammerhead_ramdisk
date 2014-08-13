@@ -50,9 +50,9 @@ fi;
 # disable sysctl.conf to prevent ROM interference with tunables
 [ -e /system/etc/sysctl.conf ] && mv /system/etc/sysctl.conf /system/etc/sysctl.conf.bak;
 
-# reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
+# reset profiles auto trigger to be used by kernel ADMIN, in case of need, if value is changed in any profile
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=27;
+RESET_MAGIC=28;
 if [ ! -e /data/.chaos/reset_profiles ]; then
 	echo "0" > /data/.chaos/reset_profiles;
 fi;

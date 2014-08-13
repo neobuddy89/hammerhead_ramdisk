@@ -54,15 +54,16 @@
         </settingsPane>
 
 	<settingsPane description="When certain important tasks migrate from a fast CPU to a slow CPU, the frequency of the slow CPU is boosted to be at least as high as the fast CPU for a short duration. You can modify its behavior here. CPU Boost helps alleviating poor user experience. Please note, this boost helps elevating frequencies and doesn't play role in turning CPU cores on/off. To disable CPU Boost, use disabled option for below frequency." name="CPU Frequency Boost">
-		<spinner description="This sets frequency to which idle CPU is boosted whenever there are incoming input events. Should be lesser or equal to Sync Threshold. Default 1.497 GHz." name="Input Event Boost Frequency" action="genericfreq /sys/module/cpu_boost/parameters/input_boost_freq">
+		<spinner description="This sets frequency to which idle CPU is boosted whenever there are incoming input/hotplug/wakeup_boost events. Hotplug and wakeboost events are identified only if enabled below. Should be lesser or equal to Sync Threshold. Default 1.190 GHz." name="Input Event Boost Frequency" action="genericfreq /sys/module/cpu_boost/parameters/input_boost_freq">
 			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="960 MHz" value="960000"/>
+			<spinnerItem name="1.036 GHz" value="1036800"/>
 			<spinnerItem name="1.190 GHz" value="1190400"/>
 			<spinnerItem name="1.267 GHz" value="1267200"/>
 			<spinnerItem name="1.497 GHz" value="1497600"/>
 			<spinnerItem name="1.574 GHz" value="1574400"/>
 			<spinnerItem name="1.728 GHz" value="1728000"/>
 			<spinnerItem name="1.958 GHz" value="1958400"/>
-			<spinnerItem name="2.265 GHz" value="2265600"/>
 		</spinner>
 		<spinner description="During CPU Boost, frequency of slower CPU is matched with that of faster CPU, we can set limit to maximum frequency allowed for frequency synchronization. Should be greater or equal to Input Event Boost Frequency. Default 1.728 GHz." name="Sync Threshold" action="genericfreq /sys/module/cpu_boost/parameters/sync_threshold">
 			<spinnerItem name="1.190 GHz" value="1190400"/>
@@ -86,7 +87,7 @@
 			<spinnerItem name="Disabled" value="N"/> 
 		</spinner>
 		<seekBar description="This slider sets boost period for which CPU is boosted when task migrates to slower CPU. Default 10 ms." name="Boost Duration" action="generic /sys/module/cpu_boost/parameters/boost_ms" unit="ms" min="0" reversed="false" step="5" max="100"/>
-		<seekBar description="This slider sets period for which idle CPU is boosted whenever there are incoming input events. Default 40 ms." name="Input Event Boost Duration" action="generic /sys/module/cpu_boost/parameters/input_boost_ms" unit="ms" min="5" reversed="false" step="5" max="100"/>
+		<seekBar description="This slider sets period for which idle CPU is boosted whenever there are incoming input/hotplug/wakeup_boost events. Default 40 ms." name="Input Event Boost Duration" action="generic /sys/module/cpu_boost/parameters/input_boost_ms" unit="ms" min="5" reversed="false" step="5" max="100"/>
 	</settingsPane>
 
 	<settingsPane description="You can change governor of your device here. Governor decides current frequency of your device accordingly. Governors marked as TEST are for evaluating purposes, do not use if you are not sure." name="Governor control">
@@ -142,7 +143,7 @@
 			<spinnerItem name="3 CORES" value="3"/>
 			<spinnerItem name="4 CORES" value="4"/>
 		</spinner>
-		<spinner description="This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. Recommended value is greater than 1 to prevent background apps like Music player starving for CPU power and creating glitch. Min CPUs online will change to 1 itself when device is suspended after suspend defer time and restore back to normal value when device is resumed. Default 2." name="Max CPUs online (Suspend)" action="max_cpus_online_susp">
+		<spinner description="This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. In case you are having trouble like music glitch on screen off, increase this value from default 1." name="Max CPUs online (Suspend)" action="max_cpus_online_susp">
 			<spinnerItem name="1 CORE" value="1"/>
 			<spinnerItem name="2 CORES" value="2"/>
 			<spinnerItem name="3 CORES" value="3"/>
@@ -439,11 +440,6 @@
 		<seekBar description="This slider helps increasing/decreasing vibrator strength. Default 75." name="Vibrator Strength" action="generic /sys/devices/virtual/timed_output/vibrator/amp" unit=" " min="0" reversed="false" step="1" max="100"/>
 
 		<spinner description="Sleeper Fairness is a concept used by CFS (Default task scheduler) which treat sleeping/waiting tasks as if they were in a run queue. This implies tasks which spend most of the time waiting for an user input and such will get a fair share of CPU when they need it. Disabling Gentle Fair Sleeper could improve UI responsiveness. Effect on battery consumption is not tested." name="Gentle Fair Sleeper" action="generic sys/kernel/sched/gentle_fair_sleepers">
-			<spinnerItem name="Enabled" value="1"/> 
-			<spinnerItem name="Disabled" value="0"/> 
-		</spinner>
-
-		<spinner description="Enable/Disable Dynamic File Sync. While screen is on, file sync is temporarily deferred, when screen is off, a flush is called to synchronize all outstanding writes. Please note: There may be loss of slight data if device reboots abruptly when Dynamic Fsync is enabled." name="Dynamic FSync" action="generic /sys/kernel/dyn_fsync/Dyn_fsync_active">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>

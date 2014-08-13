@@ -62,7 +62,6 @@ log_mode=2
 logger=off
 amp=75
 gentle_fair_sleepers=1
-Dyn_fsync_active=0
 fast_charge=0
 crontab=on
 cron_drop_cache=on
