@@ -200,7 +200,7 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1400000:40000 1700000:20000"
     write /sys/devices/system/cpu/cpufreq/interactive/check_fast_target_loads 95
     write /sys/devices/system/cpu/cpufreq/interactive/check_fast_target_loads "50 1000000:66"
-    write /sys/devices/system/cpu/cpufreq/interactive/check_fast_timer_rate 10000
+    write /sys/devices/system/cpu/cpufreq/interactive/check_fast_timer_rate 15000
     write /sys/devices/system/cpu/cpufreq/interactive/freq_calc_thresh 2265600
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 0
     write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
