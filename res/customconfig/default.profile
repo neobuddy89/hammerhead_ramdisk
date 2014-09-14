@@ -1,7 +1,7 @@
 power_efficient=N
 limiter_enabled=0
 resume_max_freq=2265600
-scaling_min_freq=300000
+suspend_min_freq=300000
 scaling_max_freq_oc=2265600
 suspend_max_freq=1728000
 input_boost_freq=1497600

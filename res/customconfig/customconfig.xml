@@ -8,7 +8,7 @@
 		</spinner>
 	</settingsPane>
 	<settingsPane description="You can change max and min frequencies of your device here. 1.190 GHz is the minimum limit of max frequency as below this frequency your device may suffer from high performance degradation. 1.036 GHz is the maximum limit of min frequency as above this frequency your device may not cool down. (Default: Max 2.265 GHz, Min 300 MHz)" name="CPU Frequency control">
-		<spinner description="This is master switch which enables overriding and changing max frequencies on system suspend/resume. If you are using external app to set max-min frequency, keep this driver disabled." name="Limiter Driver" action="generic /sys/kernel/msm_limiter/limiter_enabled">
+		<spinner description="This enables overriding of current CPU Max/Min Frequency. It also set CPU Max Frequency whenever device resumes and suspends and set CPU Min Frequency whenever device suspends." name="Limiter Driver" action="generic /sys/kernel/msm_limiter/limiter_enabled">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
@@ -21,7 +21,7 @@
 			<spinnerItem name="1.958 GHz" value="1958400"/>
 			<spinnerItem name="2.265 GHz" value="2265600"/>
 		</spinner>
-		<spinner description="This sets minimum frequency of your device. Default 300 MHz." name="Min CPU Frequency" action="genericfreq /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq">
+		<spinner description="This sets minimum frequency of your device. Default 300 MHz." name="Min CPU Frequency" action="genericfreq /sys/kernel/msm_limiter/suspend_min_freq">
 			<spinnerItem name="300 MHz" value="300000"/>
 			<spinnerItem name="422 MHz" value="422400"/>
 			<spinnerItem name="652 MHz" value="652800"/>
