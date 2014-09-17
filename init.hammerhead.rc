@@ -67,8 +67,8 @@ on boot
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
 
     #bluetooth UART dev
-    chown bluetooth net_bt_stack /sys/devices/f9960000.uart/clock
-    chmod 0660 /sys/devices/f9960000.uart/clock
+    chown bluetooth net_bt_stack /sys/bus/platform/drivers/msm_serial_hs/f9960000.uart/clock
+    chmod 0660 /sys/bus/platform/drivers/msm_serial_hs/f9960000.uart/clock
 
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -102,6 +102,18 @@ on boot
     setprop net.tcp.buffersize.hspa     4096,87380,704512,4096,16384,110208
     setprop net.tcp.buffersize.hsupa    4096,87380,704512,4096,16384,110208
 
+    # For setting tcp delayed ack
+    chown system system /sys/kernel/ipv4/tcp_delack_seg
+    chown system system /sys/kernel/ipv4/tcp_use_userconfig
+
+    # Define TCP delayed ack settings for WiFi & LTE
+    setprop net.tcp.delack.default     1
+    setprop net.tcp.delack.wifi        20
+    setprop net.tcp.delack.lte         8
+    setprop net.tcp.usercfg.default    0
+    setprop net.tcp.usercfg.wifi       1
+    setprop net.tcp.usercfg.lte        1
+
     # create symlink for fb1 as HDMI
     symlink /dev/graphics/fb1 /dev/graphics/hdmi
 
@@ -130,6 +142,16 @@ on boot
     write /sys/bus/msm_subsys/devices/subsys1/restart_level "related"
     #venus
     write /sys/bus/msm_subsys/devices/subsys2/restart_level "related"
+
+    # Subsytem Ramdump collection
+    mkdir /data/tombstones 0777 system system
+    mkdir /data/tombstones/ramdump 0777 system system
+    restorecon_recursive /data/tombstones
+    write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
+
+    # Modem logging collection
+    mkdir /data/diag_logs 0777 system system
+    chmod 666 /dev/diag
 
     # leds
     chown system system /sys/class/leds/red/on_off_ms
@@ -188,11 +210,14 @@ on post-fs-data
     setprop vold.post_fs_data_done 1
 
     # Set the CPU Freq Sampling rates
+    write /sys/module/msm_thermal/parameters/enabled 1
     write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/module/msm_thermal/vdd_restriction/enabled 0
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
-    # write /sys/class/devfreq/qcom,cpubw.29/governor "cpubw_hwmon"
+
+    write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
@@ -213,21 +238,28 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/interactive/timer_slack -1
     write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load 75
     write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1574400
-    write /sys/module/cpu_boost/parameters/boost_ms 10
+
+    write /sys/module/cpu_boost/parameters/boost_ms 20
     write /sys/module/cpu_boost/parameters/sync_threshold 1728000
     write /sys/module/cpu_boost/parameters/input_boost_freq 1497600
     write /sys/module/cpu_boost/parameters/input_boost_ms 40
     write /sys/module/cpu_boost/parameters/load_based_syncs 1
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+    write /dev/cpuctl/apps/cpu.notify_on_migrate 1
+
     write /sys/module/msm_hotplug/down_lock_duration 500
     write /sys/module/msm_hotplug/boost_lock_duration 2500
     write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
+
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    # write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
+#    write /sys/module/msm_thermal/core_control/enabled 1
     chown root.system /sys/devices/system/cpu/mfreq
     chmod 220 /sys/devices/system/cpu/mfreq
     chown system system /sys/devices/system/cpu/cpu1/online
@@ -270,6 +302,7 @@ on charger
     write /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled 1
     write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/module/msm_thermal/vdd_restriction/enabled 0
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -281,11 +314,15 @@ on charger
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
-    write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
+#    write /sys/module/msm_thermal/core_control/enabled 1
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
-    # start mpdecision
+    start mpdecision
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
@@ -313,14 +350,15 @@ on property:sys.boot_completed=1
     write /sys/module/msm_pm/modes/cpu1/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu2/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu3/retention/idle_enabled 1
-    write /sys/block/mmcblk0/queue/scheduler "row"
-    # start mpdecision
+    write /sys/block/mmcblk0/queue/scheduler row
+    start mpdecision
+    start qrngp
 
     # enable slimport detection
     write /sys/module/slimport/parameters/enable_irq 1
 
     # let the Chaos begin
-    exec /sbin/ext/inject.sh
+    exec /sbin/post-init.sh
 
 service rmt_storage /system/bin/rmt_storage
     class core
@@ -345,6 +383,11 @@ service sensors /system/bin/sensors.qcom
     class main
     user root
     group root
+
+# Adjust socket buffer to enlarge TCP receive window for high bandwidth
+# but only if ro.data.large_tcp_window_size property is set.
+on property:ro.data.large_tcp_window_size=true
+    write /proc/sys/net/ipv4/tcp_adv_win_scale  2
 
 service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
@@ -465,11 +508,11 @@ service bugreport /system/bin/dumpstate -d -p -B \
     oneshot
     keycodes 114 115 116
 
-service mpdecision /sbin/mpdecision --avg_comp
-    class main
-    user root
-    group root system
-    disabled
+service mpdecision /system/bin/mpdecision --avg_comp
+   class main
+   user root
+   group root system
+   disabled
 
 service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
     class main
@@ -477,10 +520,22 @@ service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
     user root
     group root
 
-# service thermal-engine /system/bin/thermal-engine-hh
+#service thermal-engine /system/bin/thermal-engine
+#   class main
+#   user root
+#   group radio system
+#   disabled
+
+#service thermal-engine /system/bin/thermal-engine-hh
 #   class main
 #   user root
 #   group root
+#   disabled
+
+service audiod /system/bin/audiod
+   class late_start
+   user system
+   group system
 
 service vss_init /vendor/bin/vss_init
     class late_start
@@ -504,6 +559,3 @@ service qrngp /system/bin/qrngp
     group root
     oneshot
     disabled
-
-on property:sys.boot_completed=1
-    start qrngp

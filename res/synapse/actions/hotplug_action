@@ -1,0 +1,12 @@
+if [[ ! -z $2 ]]; then
+	echo $2 > /sys/module/msm_hotplug/$1;
+	echo $2 > /sys/kernel/intelli_plug/$1;
+fi
+
+if [ $(expr `cat /sys/module/msm_hotplug/msm_enabled`) -eq "1" ]; then
+	echo `cat /sys/module/msm_hotplug/$1`
+elif [ $(expr `cat /sys/kernel/intelli_plug/intelli_plug_active`) -eq "1" ]; then
+	echo `cat /sys/kernel/intelli_plug/$1`
+else
+	echo `cat /sys/module/msm_hotplug/$1`
+fi

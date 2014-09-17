@@ -1,5 +1,0 @@
-#!/sbin/busybox sh
-
-PROFILE=`cat /data/.chaos/.active.profile`;
-
-echo "Your profile: \"$PROFILE\"";
