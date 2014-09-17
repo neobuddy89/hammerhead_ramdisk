@@ -17,6 +17,14 @@ case $1 in
 			echo KSM is Disabled.
 		fi
 	;;
+	PVSbin)
+		if [ -e  /sys/module/clock_krait_8974/parameters/table_name ]; then
+			PVS="$(expr `cat  /sys/module/clock_krait_8974/parameters/table_name`)"
+			echo $PVS
+		else
+			echo PVS bin not found.
+		fi
+	;;
 	CURFreq)
 		FREQONE=Offline
 		FREQTWO=Offline
