@@ -10,7 +10,10 @@ SYNAPSE_SD_DIR=/sdcard/Synapse;
 
 if [ ! -f $UCI_CONFIG ]; then
 	[ ! -d "$SYNAPSE_SD_DIR" ] && $BB mkdir -p "$SYNAPSE_SD_DIR";
-	KERNEL_CURR=`$BB cat /proc/version 2> /dev/null`;
+	# Use this trigger to reset Synapse settings on boot.
+	# Just increment it for cases like default parameters are changed
+	# for some drivers and you wish user to use these parameters on boot.
+	KERNEL_CURR=1;
 	
 	if [ ! -f "$SYNAPSE_SD_DIR/last_kernel" ]; then
 		$BB rm -R /data/data/com.af.synapse/databases;
