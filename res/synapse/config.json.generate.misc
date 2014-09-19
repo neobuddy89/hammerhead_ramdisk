@@ -96,6 +96,17 @@ cat << CTAG
 					$BB echo '}
 				}},'
 		fi`
+		{ STitleBar:{
+			title:"TCP Congestion Control"
+		}},
+			{ SOptionList:{
+				description:"Set the algorithm of internet congestion avoidance, to possibly improve speeds and load times. More info: <a href='https://en.wikipedia.org/wiki/TCP_congestion-avoidance_algorithm'>HERE</a>",
+				default:`$BB cat \`sh $DEVICE DirTCPCongestion\``,
+				action:"generic `sh $DEVICE DirTCPCongestion`",
+				values:[
+					`sh $DEVICE TCPCongestionList`
+				]
+			}},
 		`if [ -f "/sys/class/timed_output/vibrator/amp" ]; then
 		VIBRATOR=\`$BB cat /sys/class/timed_output/vibrator/amp\`
 			$BB echo '{ SPane:{
@@ -111,6 +122,72 @@ cat << CTAG
 					action:"generic /sys/class/timed_output/vibrator/amp"
 				}},'
 		fi`
+			`if [ -d "/sys/class/leds" ]; then
+				$BB echo '{ SPane:{
+					title:"LED Control",
+					description:"Kernel trigger for LEDs. Using this might interfere with OS level LED management and vice versa.",
+				}},'
+				if [ -f "/sys/class/leds/blue/trigger" ]; then
+					$BB echo '{ SOptionList:{
+						title:"Blue",
+						default:none,
+						action:"bracket-option /sys/class/leds/blue/trigger",
+						values:['
+							for LEDS in \`$BB cat /sys/class/leds/blue/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+								$BB echo "\"$LEDS\",";
+							done;
+						$BB echo ']
+					}},'
+				fi
+				if [ -f "/sys/class/leds/green/trigger" ]; then
+					$BB echo '{ SOptionList:{
+						title:"Green",
+						default:none,
+						action:"bracket-option /sys/class/leds/green/trigger",
+						values:['
+							for LEDS in \`$BB cat /sys/class/leds/green/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+								$BB echo "\"$LEDS\",";
+							done;
+						$BB echo ']
+					}},'
+				fi
+				if [ -f "/sys/class/leds/red/trigger" ]; then
+					$BB echo '{ SOptionList:{
+						title:"Red",
+						default:none,
+						action:"bracket-option /sys/class/leds/red/trigger",
+						values:['
+							for LEDS in \`$BB cat /sys/class/leds/red/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+								$BB echo "\"$LEDS\",";
+							done;
+						$BB echo ']
+					}},'
+				fi
+				if [ -f "/sys/class/leds/lcd-backlight/trigger" ]; then
+					$BB echo '{ SOptionList:{
+						title:"LCD Backlight",
+						default:none,
+						action:"bracket-option /sys/class/leds/lcd-backlight/trigger",
+						values:['
+							for LEDS in \`$BB cat /sys/class/leds/lcd-backlight/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+								$BB echo "\"$LEDS\",";
+							done;
+						$BB echo ']
+					}},'
+				fi
+				if [ -f "/sys/class/leds/spotlight/trigger" ]; then
+					$BB echo '{ SOptionList:{
+						title:"Spotlight",
+						default:none,
+						action:"bracket-option /sys/class/leds/spotlight/trigger",
+						values:['
+							for LEDS in \`$BB cat /sys/class/leds/spotlight/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+								$BB echo "\"$LEDS\",";
+							done;
+						$BB echo ']
+					}},'
+				fi
+			fi`
     ]
 }
 CTAG
