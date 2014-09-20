@@ -1,5 +1,3 @@
-#!/sbin/busybox sh
-
 BB=/sbin/busybox;
 DEVICE=/res/synapse/files/hammerhead.sh;
 
@@ -9,23 +7,38 @@ bool() {
 }
 
 cat << CTAG
-
 {
     sections: [
-		`. /res/synapse/config.json.generate.status`
-		`. /res/synapse/config.json.generate.cpu`
-		`. /res/synapse/config.json.generate.cpuvolt`
-		`. /res/synapse/config.json.generate.gamma`
-		`. /res/synapse/config.json.generate.gpu`
-		`. /res/synapse/config.json.generate.hotplug`
-		`. /res/synapse/config.json.generate.io`
-		`. /res/synapse/config.json.generate.memory`
-		`. /res/synapse/config.json.generate.misc`
-		`. /res/synapse/config.json.generate.sound`
-		`. /res/synapse/config.json.generate.thermal`
-		`. /res/synapse/config.json.generate.tools`
-		`. /res/synapse/config.json.generate.wake`
+		`if [ -n "$DEVICE" ]; then
+			. /res/synapse/config.json.generate.status
+			$BB echo ','
+			. /res/synapse/config.json.generate.cpu
+			$BB echo ','
+			. /res/synapse/config.json.generate.cpuvolt
+			$BB echo ','
+			. /res/synapse/config.json.generate.gamma
+			$BB echo ','
+			. /res/synapse/config.json.generate.gpu
+			$BB echo ','
+			. /res/synapse/config.json.generate.hotplug
+			$BB echo ','
+			. /res/synapse/config.json.generate.io
+			$BB echo ','
+			. /res/synapse/config.json.generate.memory
+			$BB echo ','
+			. /res/synapse/config.json.generate.misc
+			$BB echo ','
+			. /res/synapse/config.json.generate.sound
+			$BB echo ','
+			. /res/synapse/config.json.generate.thermal
+			$BB echo ','
+			. /res/synapse/config.json.generate.tools
+			$BB echo ','
+			if [ -f "/sys/android_touch/sweep2wake" ]; then
+				. /res/synapse/config.json.generate.wake
+			$BB echo ','
+			fi
+		fi`
     ]
 }
 CTAG
-
