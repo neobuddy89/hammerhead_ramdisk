@@ -43,6 +43,13 @@ case "$1" in
 	DefaultGPUGovernor)
 		$BB echo "`$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor`"
 	;;
+	DefaultCPUBWGovernor)
+		if [ -d /sys/class/devfreq/qcom,cpubw.29 ]; then
+			$BB echo "`$BB cat /sys/class/devfreq/qcom,cpubw.29/governor`"
+		else
+			$BB echo "`$BB cat /sys/class/devfreq/qcom,cpubw.30/governor`"
+		fi
+	;;
 	DirKernelIMG)
 		$BB echo "/dev/block/platform/msm_sdcc.1/by-name/boot";
 	;;
@@ -57,6 +64,13 @@ case "$1" in
 	;;
 	DirCPUMinFrequency)
 		$BB echo "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+	;;
+	DirCPUBWGovernor)
+		if [ -d /sys/class/devfreq/qcom,cpubw.29 ]; then
+			$BB echo "/sys/class/devfreq/qcom,cpubw.29/governor";
+		else
+			$BB echo "/sys/class/devfreq/qcom,cpubw.30/governor";
+		fi
 	;;
 	DirGPUGovernor)
 		$BB echo "/sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor";
@@ -95,6 +109,17 @@ case "$1" in
 		for GPUGOV in `$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/available_governors`; do
 			$BB echo "\"$GPUGOV\",";
 		done;
+	;;
+	CPUBWGovernorList)
+		if [ -d /sys/class/devfreq/qcom,cpubw.29 ]; then
+			for CPUGOV in `$BB cat /sys/class/devfreq/qcom,cpubw.29/available_governors`; do
+				$BB echo "\"$CPUGOV\",";
+			done;
+		else
+			for CPUGOV in `$BB cat /sys/class/devfreq/qcom,cpubw.30/available_governors`; do
+				$BB echo "\"$CPUGOV\",";
+			done;
+		fi
 	;;
 	GPUPowerLevel)
 		for GPUFREQ in `$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/available_frequencies`; do
@@ -151,6 +176,14 @@ case "$1" in
 		fi;
 		
 		$BB echo "Version: $version@nState: $state@nTamper: $tamper";
+	;;
+	LiveCPUBWFrequency)
+		if [ -d /sys/class/devfreq/qcom,cpubw.29 ]; then
+			CPUBWFREQ="$((`$BB cat /sys/class/devfreq/qcom,cpubw.29/cur_freq` / 1000000)) MHz";
+		else
+			CPUBWFREQ="$((`$BB cat /sys/class/devfreq/qcom,cpubw.30/cur_freq` / 1000000)) MHz";
+		fi
+		$BB echo "$CPUBWFREQ";
 	;;
 	LiveCPUFrequency)
 		CPU0=`$BB cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2> /dev/null`;
@@ -299,6 +332,13 @@ case "$1" in
 		$BB echo `$BB cat $2`;
 	;;
 	SetGPUGovernor)
+		if [[ ! -z $3 ]]; then
+			$BB echo $3 > $2 2> /dev/null;
+		fi;
+		
+		$BB echo `$BB cat $2`;
+	;;
+	SetCPUBWGovernor)
 		if [[ ! -z $3 ]]; then
 			$BB echo $3 > $2 2> /dev/null;
 		fi;

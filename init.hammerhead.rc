@@ -210,9 +210,7 @@ on post-fs-data
     setprop vold.post_fs_data_done 1
 
     # Set the CPU Freq Sampling rates
-    write /sys/module/msm_thermal/parameters/enabled 1
     write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/module/msm_thermal/vdd_restriction/enabled 0
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -230,7 +228,7 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/bacon/timer_rate 30000
     write /sys/devices/system/cpu/cpufreq/bacon/timer_slack 30000
 
-    write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
+    # TODO: write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
 
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
@@ -273,7 +271,7 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
-#    write /sys/module/msm_thermal/core_control/enabled 1
+    # write /sys/module/msm_thermal/core_control/enabled 1
     chown root.system /sys/devices/system/cpu/mfreq
     chmod 220 /sys/devices/system/cpu/mfreq
     chown system system /sys/devices/system/cpu/cpu1/online
@@ -316,7 +314,6 @@ on charger
     write /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled 1
     write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/module/msm_thermal/vdd_restriction/enabled 0
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -332,10 +329,10 @@ on charger
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 2265600
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2265600
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq 2265600
-#    write /sys/module/msm_thermal/core_control/enabled 1
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
+    # write /sys/module/msm_thermal/core_control/enabled 1
     start mpdecision
 
 on property:init.svc.wpa_supplicant=stopped
@@ -534,11 +531,10 @@ service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
     user root
     group root
 
-#service thermal-engine /system/bin/thermal-engine
-#   class main
-#   user root
-#   group radio system
-#   disabled
+service thermal-engine /system/bin/thermal-engine
+   class main
+   user root
+   group radio system
 
 #service thermal-engine /system/bin/thermal-engine-hh
 #   class main

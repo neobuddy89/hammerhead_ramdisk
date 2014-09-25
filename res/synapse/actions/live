@@ -58,6 +58,9 @@ case $1 in
 	Bootloader)
 		$BB echo `sh $DEVICE LiveBootloader`;
 	;;
+	CPUBWFrequency)
+		$BB echo `sh $DEVICE LiveCPUBWFrequency`;
+	;;
 	CPUFrequency)
 		$BB echo `sh $DEVICE LiveCPUFrequency`;
 	;;
