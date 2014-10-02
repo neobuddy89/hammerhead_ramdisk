@@ -8,6 +8,10 @@ UCI_ACTION=/res/synapse/actions/;
 DEBUG=/res/synapse/debug;
 SYNAPSE_SD_DIR=/sdcard/Synapse;
 
+# Mount root as RW to apply tweaks and settings
+$BB mount -t rootfs -o remount,rw rootfs;
+$BB mount -o remount,rw /;
+
 if [ ! -f $UCI_CONFIG ]; then
 	[ ! -d "$SYNAPSE_SD_DIR" ] && $BB mkdir -p "$SYNAPSE_SD_DIR";
 	# Use this trigger to reset Synapse settings on boot.

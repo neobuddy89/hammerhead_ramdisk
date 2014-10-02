@@ -3,8 +3,8 @@ DEVICE=/res/synapse/files/hammerhead.sh;
 
 case $1 in
 	MAXMINFreq)
-		FREQMAX="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` / 1000)MHz"
-		FREQMIN="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` / 1000)MHz"
+		FREQMAX="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/policy_max_freq` / 1000)MHz"
+		FREQMIN="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/policy_min_freq` / 1000)MHz"
 		echo Max Freq: $FREQMAX@nMin Freq: $FREQMIN
 	;;
 	KSMStats)

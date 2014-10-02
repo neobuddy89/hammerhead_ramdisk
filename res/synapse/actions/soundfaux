@@ -57,6 +57,10 @@ if [ -f $1 ]; then
 		$BB echo 0 > /sys/kernel/sound_control_3/gpl_sound_control_locked;
 
 		if [ "$1" == "/res/synapse/files/sound_prof" ]; then
+
+			$BB mount -t rootfs -o remount,rw rootfs;
+			$BB mount -o remount,rw /;
+
 			$BB echo $2 > $1;
 
 			if [ $2 != "Custom" ]; then
