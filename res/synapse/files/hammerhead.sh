@@ -175,7 +175,7 @@ case "$1" in
 			tamper="Unknown";
 		fi;
 		
-		$BB echo "Version: $version@nState: $state@nTamper: $tamper";
+		$BB echo "Version: $version";
 	;;
 	LiveCPUBWFrequency)
 		if [ -d /sys/class/devfreq/qcom,cpubw.29 ]; then

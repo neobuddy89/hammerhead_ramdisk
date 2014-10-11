@@ -3,29 +3,11 @@ cat << CTAG
 	name:TOOLS,
 		elements:[
 			`if [ "\`sh $DEVICE HasBootloader\`" == "1" ]; then
-				$BB echo '{ STitleBar:{
-					title:"Bootloader Status"
-				}},
-					{ SLiveLabel:{
-						refresh:3000,
-						action:"live Bootloader"
-					}},
-					{ SDescription:{
-						description:"Use this button to lock/unlock your bootloader without fastboot and data wipe."
-					}},
-					{ SButton:{
-						label:"Toggle Bootloader Status",
-						action:"devtools bootloader"
-					}},'
-			fi`
-			`if [ "\`sh $DEVICE HasTamperFlag\`" == "1" ]; then
-				$BB echo '{ SDescription:{
-					description:"The bootloader sets a tamper flag if it has ever been unlocked/altered. The button below allows you to change this state."
-				}},
-					{ SButton:{
-						label:"Toggle Tamper Flag",
-						action:"devtools tamper"
-					}},'
+				$BB echo '{ SLiveLabel:{
+					refresh:0,
+					title:"Bootloader version",
+					action:"live Bootloader"
+				}},'
 			fi`
 			{ SPane:{
 				title:"SELinux Status",

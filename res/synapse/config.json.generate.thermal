@@ -19,7 +19,7 @@ cat << CTAG
 							action:"boolean '$MSMTHERMAL'/parameters/intelli_enabled"
 						}},'
 				fi
-				if [ -f "$MSMTHERMAL/core_control/enabled" ]; then
+				if [ -f "$MSMTHERMAL/core_control/enabled_0" ]; then
 				CC=\`$BB cat $MSMTHERMAL/core_control/enabled\`;
 					$BB echo '{ SCheckBox:{
 						label:"Core Control",
@@ -54,7 +54,7 @@ cat << CTAG
 						action:"generic '$MSMTHERMAL'/parameters/core_limit_temp_degC"
 					}},'
 				fi
-				if [ -f "$MSMTHERMAL/parameters/freq_control_mask" ]; then
+				if [ -f "$MSMTHERMAL/parameters/freq_control_mask_0" ]; then
 					$BB echo '{ SDescription:{
 						description:"Frequency Throttling Cores:"
 					}},
@@ -78,7 +78,7 @@ cat << CTAG
 						action:"intellithermal freq core3"
 					}},'
 				fi
-				if [ -f "$MSMTHERMAL/parameters/core_control_mask" ]; then
+				if [ -f "$MSMTHERMAL/parameters/core_control_mask_0" ]; then
 					$BB echo '{ SDescription:{
 						description:"Core Throttling Cores:"
 					}},
