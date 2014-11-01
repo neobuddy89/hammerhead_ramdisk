@@ -320,6 +320,9 @@ on post-fs-data
     chown system camera /sys/class/leds/led:flash_torch/brightness
     chmod 0660 /sys/class/leds/led:flash_torch/brightness
 
+    # GPU
+    write /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq 450000000
+
 on charger
     # Booting modem
     wait /dev/block/platform/msm_sdcc.1/by-name/modem
