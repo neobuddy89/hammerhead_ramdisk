@@ -1,0 +1,28 @@
+BB=/sbin/busybox;
+
+if [[ ! -z $2 ]]; then
+	$BB echo $2 > $1;
+	if [  $2 == "MSM_Hotplug" ]; then
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+			$BB sleep 1;
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+	elif [  $2 == "Intelli_Hotplug" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			$BB sleep 1;
+			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+	else
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+			$BB sleep 1;
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+	fi
+fi
+
+if [ $(expr `cat /sys/module/msm_hotplug/msm_enabled`) -eq "1" ]; then
+	echo "MSM_Hotplug"
+elif [ $(expr `cat /sys/kernel/intelli_plug/intelli_plug_active`) -eq "1" ]; then
+	echo "Intelli_Hotplug"
+else
+	echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+	echo "1" > /sys/module/msm_hotplug/msm_enabled;
+	echo "MSM_Hotplug"
+fi
