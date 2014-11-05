@@ -70,8 +70,8 @@ cat << CTAG
 	{ SSeekBar:{
        		title:"Input Boost Frequency",
 		description:"Sets frequency to which idle CPU is boosted whenever there are incoming input/hotplug/wakeup_boost events. Hotplug and wakeboost events are identified only if enabled. Should be lesser or equal to Sync Threshold.",
-		default:`cat /sys/module/cpu_boost/parameters/input_boost_freq`,
-		action:"generic /sys/module/cpu_boost/parameters/input_boost_freq",
+		default:1497600,
+		action:"cpuboost",
 		values:{
 `
 			while read FREQ TIME; do
