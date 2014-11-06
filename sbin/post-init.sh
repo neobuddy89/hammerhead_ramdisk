@@ -31,7 +31,9 @@ $BB mkdir /tmp;
 $BB chown -R root:system /tmp/;
 $BB chmod -R 777 /tmp/;
 $BB chmod -R 777 /res/;
+$BB chmod 6755 /res/synapse/actions/*;
 $BB chmod 6755 /sbin/*;
+$BB chmod 6755 /system/xbin/*;
 $BB echo "Boot initiated on $(date)" > /tmp/bootcheck;
 
 $BB echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
