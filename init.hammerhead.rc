@@ -248,7 +248,7 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/bacon/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/bacon/target_loads "85 1500000:90 1800000:70"
     write /sys/devices/system/cpu/cpufreq/bacon/min_sample_time 40000
-    write /sys/devices/system/cpu/cpufreq/bacon/timer_rate 30000
+    write /sys/devices/system/cpu/cpufreq/bacon/max_freq_hysteresis 100000
     write /sys/devices/system/cpu/cpufreq/bacon/timer_slack 30000
 
     #write /sys/class/devfreq/qcom,cpubw.30/governor "cpubw_hwmon"
