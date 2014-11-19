@@ -17,6 +17,7 @@
 import init.hammerhead.usb.rc
 import init.hammerhead_svelte.rc
 import init.hammerhead.diag.rc
+import init.superuser.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
@@ -340,7 +341,7 @@ on charger
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
-#    start mpdecision
+    start mpdecision
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
@@ -370,13 +371,15 @@ on property:sys.boot_completed=1
     write /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled 1
     write /sys/class/kgsl/kgsl-3d0/min_pwrlevel 6
 #    start mpdecision
-    start postinit
 
     # enable slimport detection
     write /sys/module/slimport/parameters/enable_irq 1
 
     # enable logging of wake up reasons to kernel logs
     write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
+
+    # Let the hybrid power rule
+    exec /sbin/post-init.sh
 
 on property:ro.debuggable=1
     start ssr_ramdump
@@ -536,11 +539,11 @@ service bugreport /system/bin/dumpstate -d -p -B \
     oneshot
     keycodes 114 115 116
 
-# service mpdecision /system/bin/mpdecision --avg_comp
-#   class main
-#   user root
-#   group root system
-#   disabled
+service mpdecision /system/bin/mpdecision --avg_comp
+   class main
+   user root
+   group root system
+   disabled
 
 service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
     class main
@@ -564,9 +567,3 @@ service time_daemon /system/bin/time_daemon
     user root
     group root
 
-service postinit /sbin/post-init.sh
-    class main
-    user root
-    group root system
-    disabled
-    seclabel u:r:shell:s0
