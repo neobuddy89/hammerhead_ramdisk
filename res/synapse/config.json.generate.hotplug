@@ -14,9 +14,9 @@ cat << CTAG
         }},
 	{ SOptionList:{
 		default:MSM_Hotplug,
-		description: "MSM Hotplug is default hotplug driver. Controls given below are applicable only for MSM Hotplug and Intelli Hotplug unless specified.",
+		description: "MSM Hotplug is default hotplug driver. CyanogenMod is hotplug mechanism using improved mpdecision. Controls given below are applicable only for MSM Hotplug and Intelli Hotplug unless specified.",
 		action:"hotplug_select /res/synapse/files/hotplug_prof",
-		values:[ MSM_Hotplug, Intelli_Hotplug
+		values:[ MSM_Hotplug, Intelli_Hotplug, CyanogenMod
 		],
 	}},
 	{ SSeekBar:{
