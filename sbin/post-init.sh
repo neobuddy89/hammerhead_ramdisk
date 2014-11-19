@@ -11,17 +11,8 @@ mount -o rw,remount /system
 if [ -e /system/etc/sysctl.conf ]; then
 mv /system/etc/sysctl.conf /system/etc/sysctl.conf-bak;
 fi;
-if [ -e /system/lib/hw/power.msm8974.so ]; then
-mv /system/lib/hw/power.msm8974.so /system/lib/hw/power.msm8974.so-bak;
-fi;
-if [ -e /system/lib/hw/power.hammerhead.so ]; then
-mv /system/lib/hw/power.hammerhead.so /system/lib/hw/power.hammerhead.so-bak;
-fi;
 if [ -e /system/bin/thermal-engine-hh ]; then
 mv /system/bin/thermal-engine-hh /system/bin/thermal-engine-hh-bak;
-fi;
-if [ -e /system/bin/mpdecision ]; then
-mv /system/bin/mpdecision /system/bin/mpdecision-bak;
 fi;
 
 # Make tmp folder
