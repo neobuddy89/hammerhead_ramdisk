@@ -598,7 +598,12 @@ service installd /system/bin/installd
     class main
     socket installd stream 600 system system
 
-service flash_recovery /system/etc/install-cm-recovery.sh
+service flash_recovery /system/bin/install-recovery.sh
+    class main
+    seclabel u:r:install_recovery:s0
+    oneshot
+
+service flash_cm_recovery /system/etc/install-cm-recovery.sh
     class main
     seclabel u:r:install_recovery:s0
     oneshot
@@ -606,7 +611,7 @@ service flash_recovery /system/etc/install-cm-recovery.sh
 
 # update recovery if enabled
 on property:persist.sys.recovery_update=true
-    start flash_recovery
+    start flash_cm_recovery
 
 service racoon /system/bin/racoon
     class main
