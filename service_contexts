@@ -124,3 +124,5 @@ wifi                                      u:object_r:system_server_service:s0
 window                                    u:object_r:system_server_service:s0
 
 *                                         u:object_r:default_android_service:s0
+#line 1 "vendor/cm/sepolicy/service_contexts"
+edgegestureservice                        u:object_r:system_server_service:s0
