@@ -7,7 +7,7 @@ cat << CTAG
 	{ SLiveLabel:{
 		title:"Core Status",
 		refresh:500,
-		action:"live CURFreq"
+		action:"live CORESTATUS"
 	}},
         { STitleBar:{
 		title:"Hotplug Driver"

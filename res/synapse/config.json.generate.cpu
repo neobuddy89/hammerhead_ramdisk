@@ -8,22 +8,22 @@ cat << CTAG
     elements:[
 	{ SLiveLabel:{
 		title:"Scaling Frequencies",
-		description: "Scaling min-max frequencies are affected by thermal engine/driver and CPU Boost driver. You may enable and use MSM Limiter Driver below to make sure scaling frequencies are desired ranges most of the time. This reflects CPU0 scaling frequencies.",
-		refresh:800,
-		action:"live MAXMINFreq"
+		description: "Scaling max-min frequencies are affected by thermal engine/driver, mpdecision hotplug driver and CPU Boost driver. You may enable and use MSM Limiter Driver below to make sure scaling frequencies are desired ranges MOST of the time. We do let other drivers affect scaling frequencies because this manipulation helps to achieve performance without compromising stability. Below live monitor reflects actual scaling max, min and current frequencies in MHz per CPU core.",
+		refresh:1000,
+		action:"live SCALINGFREQ"
 	}},
 	{ STitleBar:{
 		title:"MSM Limiter"
 	}},
 	{ SCheckBox:{
 		label:"Enable",
-		description:"This enables overriding of current CPU Max/Min Frequency. It also set CPU Max Frequency whenever device resumes and suspends and set CPU Min Frequency whenever device suspends.",
+		description:"This enables overriding of current CPU Max/Min Frequency. It also set CPU Max Frequency whenever device resumes and suspends and set CPU Min Frequency whenever device suspends. Below controls will work ONLY if MSM Limiter driver is enabled. Ideal max frequency should always be higher than min frequency and input boost frequency. Ideal min frequency should be lesser than max frequency, max screen off frequency and input boost frequency.",
 		default:`cat /sys/kernel/msm_limiter/limiter_enabled`,
 		action:"generic /sys/kernel/msm_limiter/limiter_enabled",
 	}},
 	{ SSeekBar:{
        		title:"CPU0 Max Frequency",
-		description:"Set the maximum frequency the CPU0 scales up to. CPU0 is used for most critical work, it is recommended not to reduce this frequency below 1.7 GHz,",
+		description:"Set the maximum frequency the CPU0 scales up to. CPU0 is used for most critical kernel tasks, it is recommended not to reduce this frequency below 1.7 GHz,",
 		default:`cat /sys/kernel/msm_limiter/resume_max_freq_0`,
 		action:"generic /sys/kernel/msm_limiter/resume_max_freq_0",
 		values:{
