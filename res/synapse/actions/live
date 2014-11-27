@@ -39,23 +39,20 @@ case $1 in
 		fi
 	;;
 	CORESTATUS)
-		CORE_0=Offline
-		CORE_1=Offline
-		CORE_2=Offline
-		CORE_3=Offline
-		if [ $(expr `cat /sys/kernel/msm_limiter/live_cur_freq_0`) -gt "0" ]; then
-			CORE_0=Online
+		CORE_0="$(expr `cat /sys/kernel/msm_limiter/live_cur_freq_0` / 1000)MHz"
+		CORE_1="$(expr `cat /sys/kernel/msm_limiter/live_cur_freq_1` / 1000)MHz"
+		CORE_2="$(expr `cat /sys/kernel/msm_limiter/live_cur_freq_2` / 1000)MHz"
+		CORE_3="$(expr `cat /sys/kernel/msm_limiter/live_cur_freq_3` / 1000)MHz"
+		if [ $CORE_1 == "0MHz" ]; then
+			CORE_1=Offline
 		fi
-		if [ $(expr `cat /sys/kernel/msm_limiter/live_cur_freq_1`) -gt "0" ]; then
-			CORE_1=Online
+		if [ $CORE_2 == "0MHz" ]; then
+			CORE_2=Offline
 		fi
-		if [ $(expr `cat /sys/kernel/msm_limiter/live_cur_freq_2`) -gt "0" ]; then
-			CORE_2=Online
+		if [ $CORE_3 == "0MHz" ]; then
+			CORE_3=Offline
 		fi
-		if [ $(expr `cat /sys/kernel/msm_limiter/live_cur_freq_3`) -gt "0" ]; then
-			CORE_3=Online
-		fi
-		echo CPU0: $CORE_0  CPU1: $CORE_1@nCPU2: $CORE_2  CPU3: $CORE_3
+		echo CPU0: $CORE_0@nCPU1: $CORE_1@nCPU2: $CORE_2@nCPU3: $CORE_3
 	;;
 	BatteryTemperature)
 		$BB echo `sh $DEVICE LiveBatteryTemperature`;
