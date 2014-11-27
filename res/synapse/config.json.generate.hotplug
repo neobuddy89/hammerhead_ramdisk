@@ -14,35 +14,35 @@ cat << CTAG
         }},
 	{ SOptionList:{
 		default:MSM_Hotplug,
-		description: "MSM Hotplug is default hotplug driver. CyanogenMod is hotplug mechanism using improved mpdecision. Controls given below are applicable only for MSM Hotplug and Intelli Hotplug unless specified.",
+		description: "MSM Hotplug is default hotplug driver. Bricked Hotplug is experimental hotplug driver. CyanogenMod is hotplug mechanism using closed-source and improved mpdecision.",
 		action:"hotplug_select /res/synapse/files/hotplug_prof",
-		values:[ MSM_Hotplug, Intelli_Hotplug, CyanogenMod
+		values:[ MSM_Hotplug, Intelli_Hotplug, Bricked_Hotplug, CyanogenMod
 		],
 	}},
 	{ SSeekBar:{
 		title:"Touch Boosted CPUs",
-		description:"This will decided no. of cores to be boosted when screen is touched. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. When is is set to lesser or equal value of Min CPUs online, it is as good as disabled.",
+		description:"This will decided no. of cores to be boosted when screen is touched. Higher the number of cores, higher the performance. This must be lesser than or equal to no. of Max CPUs online. When is is set to lesser or equal value of Min CPUs online, it is as good as disabled. This tunable works only for MSM Hotplug and Intelli Hotplug.",
 		min:1, max:4, unit:" cores", step:1,
 		default:2,
                 action:"hotplug_action cpus_boosted"
 	}},
 	{ SSeekBar:{
 		title:"Min CPUs Online",
-		description:"This will decide minimum number of cores that stays online when device is not suspended. Higher the number of cores, better the performance. This must be less than or equal to no. of Max CPUs online.",
+		description:"This will decide minimum number of cores that stays online when device is not suspended. Higher the number of cores, better the performance. This must be less than or equal to no. of Max CPUs online. This tunable works only for MSM Hotplug, Intelli Hotplug and Bricked Hotplug.",
 		min:1, max:4, unit:" cores", step:1,
 		default:1,
                 action:"hotplug_action min_cpus_online"
 	}},
 	{ SSeekBar:{
 		title:"Max CPUs Online",
-		description:"This will decide maximum number of cores that can go online at any given time. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs.",
+		description:"This will decide maximum number of cores that can go online at any given time. Higher the number of cores, better the performance. This must be greater than or equal to no. of Min CPUs online and Boosted CPUs. This tunable works only for MSM Hotplug, Intelli Hotplug and Bricked Hotplug.",
 		min:1, max:4, unit:" cores", step:1,
 		default:4,
                 action:"hotplug_action max_cpus_online"
 	}},
 	{ SSeekBar:{
 		title:"Max CPUs Online (Suspend)",
-		description:"This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. In case you are having trouble like music glitch on screen off, keep this value greater than unity. Please note when value is set to 1, you will have very good power saving since hotplug will be completely suspended when idle.",
+		description:"This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. In case you are having trouble like music glitch on screen off, keep this value greater than unity. Please note when value is set to 1, you will have very good power saving since hotplug will be completely suspended when idle. This tunable works only for MSM Hotplug, Intelli Hotplug and Bricked Hotplug.",
 		min:1, max:4, unit:" cores", step:1,
 		default:2,
                 action:"hotplug_action max_cpus_online_susp"

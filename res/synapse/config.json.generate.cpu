@@ -288,6 +288,7 @@ cat << CTAG
 				do:REFRESH,
 				to:"/sys/devices/system/cpu/cpufreq"
 			}
+
 		]
         }},
         { SOptionList:{
@@ -393,7 +394,8 @@ cat << CTAG
 						"cpu_utilization",
 						"sampling_rate_min",
 						"up_threshold_h",
-						"up_threshold_l"
+						"up_threshold_l",
+						"multi_phase_freq_tbl"
 					]
 				}
 			}
