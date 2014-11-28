@@ -44,7 +44,7 @@ cat << CTAG
 		title:"Max CPUs Online (Suspend)",
 		description:"This will decide maximum number of cores that can go online when device is suspended. Higher the number of cores, better the performance. This should be less than or equal to no. of Max CPUs online. In case you are having trouble like music glitch on screen off, keep this value greater than unity. Please note when value is set to 1, you will have very good power saving since hotplug will be completely suspended when idle. This tunable works only for MSM Hotplug, Intelli Hotplug and Bricked Hotplug.",
 		min:1, max:4, unit:" cores", step:1,
-		default:2,
+		default:1,
                 action:"hotplug_action max_cpus_online_susp"
 	}},
 	{ SOptionList:{
