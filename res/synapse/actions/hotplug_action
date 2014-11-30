@@ -5,8 +5,8 @@ if [[ ! -z $2 ]]; then
 	if [ -e /sys/kernel/intelli_plug/$1 ]; then
 		echo $2 > /sys/kernel/intelli_plug/$1 2> /dev/null;
 	fi
-	if [ -e /sys/kernel/bricked_hotplug/$1 ]; then
-		echo $2 > /sys/kernel/bricked_hotplug/$1 2> /dev/null;
+	if [ -e /sys/kernel/bricked_hotplug/conf/$1 ]; then
+		echo $2 > /sys/kernel/bricked_hotplug/conf/$1 2> /dev/null;
 	fi
 fi
 
@@ -16,9 +16,9 @@ if [ -e /sys/module/msm_hotplug/$1 ] &&
 elif [ -e /sys/kernel/intelli_plug/$1 ] &&
 	[ $(expr `cat /sys/kernel/intelli_plug/intelli_plug_active`) -eq "1" ]; then
 	echo `cat /sys/kernel/intelli_plug/$1`
-elif [ -e /sys/kernel/bricked_hotplug/$1 ] &&
-	[ $(expr `cat /sys/kernel/bricked_hotplug/bricked_enabled`) -eq "1" ]; then
-	echo `cat /sys/kernel/bricked_hotplug/$1`
+elif [ -e /sys/kernel/bricked_hotplug/conf/$1 ] &&
+	[ $(expr `cat /sys/kernel/bricked_hotplug/conf/enabled`) -eq "1" ]; then
+	echo `cat /sys/kernel/bricked_hotplug/conf/$1`
 else
 	echo `cat /sys/module/msm_hotplug/$1`
 fi
