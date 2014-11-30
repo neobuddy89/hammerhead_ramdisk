@@ -32,14 +32,14 @@ cat << CTAG
 						{ SSeekBar:{
 							title:"Headphone (Left & Right)",
 							min:-30,
-							max:10,
+							max:15,
 							default:0,
 							action:"soundfaux /sys/kernel/sound_control_3/gpl_headphone_gain",
 						}},
 						{ SSeekBar:{
 							title:"Speaker",
 							min:-30,
-							max:10,
+							max:15,
 							default:0,
 							action:"soundfaux /sys/kernel/sound_control_3/gpl_speaker_gain",
 						}},'
@@ -55,14 +55,14 @@ cat << CTAG
 						$BB echo '{ SSeekBar:{
 							title:"Handset Microphone",
 							min:-30,
-							max:10,
+							max:15,
 							default:0,
 							action:"soundfaux /sys/kernel/sound_control_3/gpl_mic_gain",
 						}},
 						{ SSeekBar:{
 							title:"Camcorder Microphone",
 							min:-30,
-							max:10,
+							max:15,
 							default:0,
 							action:"soundfaux /sys/kernel/sound_control_3/gpl_cam_mic_gain",
 						}},'
@@ -82,14 +82,14 @@ cat << CTAG
 					{ SSeekBar:{
 						title:"Headset Boost",
 						min:-11,
-						max:11,
+						max:15,
 						default:'$HB',
 						action:"generic '$SC'/headset_boost",
 					}},
 					{ SSeekBar:{
 						title:"Microphone Boost",
 						min:-11,
-						max:11,
+						max:15,
 						default:'$MB',
 						action:"generic '$SC'/mic_boost",
 					}},
@@ -103,7 +103,7 @@ cat << CTAG
 					{ SSeekBar:{
 						title:"Speaker Boost",
 						min:-11,
-						max:11,
+						max:15,
 						default:'$SB',
 						action:"generic '$SC'/speaker_boost",
 					}},
