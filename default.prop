@@ -1,6 +1,7 @@
 #
 # ADDITIONAL_DEFAULT_PROPERTIES
 #
+ro.adb.secure=0
 ro.secure=0
 ro.allow.mock.location=0
 ro.debuggable=1
@@ -11,7 +12,6 @@ persist.radio.use_cc_names=true
 persist.sys.usb.config=mtp,adb
 rild.libpath=/system/lib/libril-qc-qmi-1.so
 camera.disable_zsl_mode=1
-ro.adb.secure=0
 dalvik.vm.dex2oat-Xms=64m
 dalvik.vm.dex2oat-Xmx=512m
 dalvik.vm.image-dex2oat-Xms=64m
