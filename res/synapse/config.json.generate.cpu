@@ -173,8 +173,9 @@ cat << CTAG
        		title:"CPU0 Input Boost Frequency",
 		description:"Set the input boost frequency for CPU0.",
 		default:1497600,
-		action:"cpuboost 0",
+		action:"cpuboostibf 0",
 		values:{
+			0:"Disabled",
 `
 			while read FREQ TIME; do
 				LABEL=$(expr $FREQ / 1000)
@@ -187,8 +188,9 @@ cat << CTAG
        		title:"CPU1 Input Boost Frequency",
 		description:"Set the input boost frequency for CPU1.",
 		default:1497600,
-		action:"cpuboost 1",
+		action:"cpuboostibf 1",
 		values:{
+			0:"Disabled",
 `
 			while read FREQ TIME; do
 				LABEL=$(expr $FREQ / 1000)
@@ -201,8 +203,9 @@ cat << CTAG
        		title:"CPU2 Input Boost Frequency",
 		description:"Set the input boost frequency for CPU2.",
 		default:1497600,
-		action:"cpuboost 2",
+		action:"cpuboostibf 2",
 		values:{
+			0:"Disabled",
 `
 			while read FREQ TIME; do
 				LABEL=$(expr $FREQ / 1000)
@@ -215,8 +218,9 @@ cat << CTAG
        		title:"CPU3 Input Boost Frequency",
 		description:"Set the input boost frequency for CPU3.",
 		default:1497600,
-		action:"cpuboost 3",
+		action:"cpuboostibf 3",
 		values:{
+			0:"Disabled",
 `
 			while read FREQ TIME; do
 				LABEL=$(expr $FREQ / 1000)
