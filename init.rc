@@ -319,7 +319,7 @@ on post-fs-data
     setprop selinux.reload_policy 1
 
     # Set SELinux security contexts on upgrade or policy update.
-    restorecon_recursive /data
+#    restorecon_recursive /data
 
     # If there is no fs-post-data action in the init.<device>.rc file, you
     # must uncomment this line, otherwise encrypted filesystems
