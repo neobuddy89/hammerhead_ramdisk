@@ -9,10 +9,13 @@ import /init.usb.rc
 import /init.${ro.hardware}.rc
 import /init.${ro.zygote}.rc
 import /init.trace.rc
+# Include CM's extra init file
+import /init.cm.rc
+
 
 on early-init
     # Set init and its forked children's oom_adj.
-    write /proc/1/oom_adj -16
+    write /proc/1/oom_score_adj -1000
 
     # Apply strict SELinux checking of PROT_EXEC on mmap/mprotect calls.
     write /sys/fs/selinux/checkreqprot 0
@@ -23,6 +26,7 @@ on early-init
 
     # Set the security context of /adb_keys if present.
     restorecon /adb_keys
+
     start ueventd
 
     # create mountpoints
@@ -91,7 +95,7 @@ on init
     mkdir /dev/memcg 0700 root system
     mount cgroup none /dev/memcg memory
 
-    write /proc/sys/kernel/panic_on_oops 1
+    write /proc/sys/kernel/panic_on_oops 0
     write /proc/sys/kernel/hung_task_timeout_secs 0
     write /proc/cpu/alignment 4
     write /proc/sys/kernel/sched_latency_ns 10000000
@@ -319,7 +323,10 @@ on post-fs-data
     setprop selinux.reload_policy 1
 
     # Set SELinux security contexts on upgrade or policy update.
-#    restorecon_recursive /data
+    restorecon_recursive /data
+    restorecon /data/data
+    restorecon /data/user
+    restorecon /data/user/0
 
     # If there is no fs-post-data action in the init.<device>.rc file, you
     # must uncomment this line, otherwise encrypted filesystems
@@ -386,16 +393,13 @@ on boot
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
 
     # Assume SMP uses shared cpufreq policy for all CPUs
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chown system system /sys/class/leds/lcd-backlight/brightness
+    chown system system /sys/class/leds/torch-light/brightness
     chown system system /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/jogball-backlight/brightness
     chown system system /sys/class/leds/red/brightness
@@ -598,12 +602,7 @@ service installd /system/bin/installd
     class main
     socket installd stream 600 system system
 
-service flash_recovery /system/bin/install-recovery.sh
-    class main
-    seclabel u:r:install_recovery:s0
-    oneshot
-
-service flash_cm_recovery /system/etc/install-cm-recovery.sh
+service flash_recovery /system/etc/install-cm-recovery.sh
     class main
     seclabel u:r:install_recovery:s0
     oneshot
@@ -611,7 +610,7 @@ service flash_cm_recovery /system/etc/install-cm-recovery.sh
 
 # update recovery if enabled
 on property:persist.sys.recovery_update=true
-    start flash_cm_recovery
+    start flash_recovery
 
 service racoon /system/bin/racoon
     class main
@@ -652,9 +651,3 @@ service pre-recovery /system/bin/uncrypt
     class main
     disabled
     oneshot
-
-service userinit /system/xbin/busybox run-parts /system/etc/init.d
-    oneshot
-    class late_start
-    user root
-    group root

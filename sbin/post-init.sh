@@ -11,7 +11,7 @@ mount -o rw,remount /system
 if [ -e /system/etc/sysctl.conf ]; then
 mv /system/etc/sysctl.conf /system/etc/sysctl.conf-bak;
 fi;
-if [ -e /system/bin/thermal-engine-hh ]; then
+if [ -e /system/bin/thermal-engine-hh_0 ]; then
 mv /system/bin/thermal-engine-hh /system/bin/thermal-engine-hh-bak;
 fi;
 

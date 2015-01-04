@@ -40,7 +40,7 @@ cat << CTAG
 							title:"Speaker",
 							min:-30,
 							max:15,
-							default:0,
+							default:4,
 							action:"soundfaux /sys/kernel/sound_control_3/gpl_speaker_gain",
 						}},'
 						if [ "\`sh $DEVICE HasHeadphonePowerAmp\`" == "1" ]; then
