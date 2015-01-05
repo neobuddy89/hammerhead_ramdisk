@@ -36,14 +36,14 @@ case $1 in
 		$BB echo "Databases have been optimized.";
 	;;
 	logcat)
-		saved="$LOGS/hybrid-logcat-$TIMESTAMP.txt";
+		saved="$LOGS/logcat-$TIMESTAMP.txt";
 		[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 		$BB chmod 755 $LOGS;
 		
 		logcat -d > $saved;
 	;;
 	dmesg)
-		saved="$LOGS/hybrid-dmesg-$TIMESTAMP.txt";
+		saved="$LOGS/dmesg-$TIMESTAMP.txt";
 		[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 		$BB chmod 755 $LOGS;
 		
@@ -52,7 +52,7 @@ case $1 in
 	kmsg)
 		kmsg=/proc/last_kmsg;
 		if [ -f $kmsg ]; then
-			saved="$LOGS/hybrid-last_kmsg-$TIMESTAMP.txt";
+			saved="$LOGS/last_kmsg-$TIMESTAMP.txt";
 			[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 			$BB chmod 755 $LOGS;
 			
