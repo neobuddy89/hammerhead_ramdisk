@@ -58,6 +58,7 @@ cat << CTAG
 					{ SSeekBar:{
 						default:0,
 						action:"voltage cpuvoltglobal global",
+						description:"Voltages are already set at their optimum values by default. DO NOT REPORT any random reboot or issue if you change CPU volt across any frequency.",
 						unit:" mV",
 						min:-300,
 						max:300,
