@@ -99,6 +99,7 @@ on property:init.svc.bootanim=stopped
 # Powersave
 on property:sys.perf.profile=0
     write /sys/class/devfreq/qcom,cpubw.41/governor "powersave"
+    write /sys/class/devfreq/0.qcom,cache/governor "cache_hwmon"
     write /sys/kernel/msm_limiter/scaling_governor_0 conservative
     write /sys/kernel/msm_limiter/scaling_governor_1 conservative
     write /sys/kernel/msm_limiter/scaling_governor_2 conservative
@@ -113,6 +114,7 @@ on property:sys.perf.profile=0
 # Balanced
 on property:sys.perf.profile=1
     write /sys/class/devfreq/qcom,cpubw.41/governor "cpubw_hwmon"
+    write /sys/class/devfreq/0.qcom,cache/governor "cache_hwmon"
     write /sys/kernel/msm_limiter/scaling_governor_0 interactive
     write /sys/kernel/msm_limiter/scaling_governor_1 interactive
     write /sys/kernel/msm_limiter/scaling_governor_2 interactive
@@ -136,6 +138,7 @@ on property:sys.perf.profile=1
 # High performance
 on property:sys.perf.profile=2
     write /sys/class/devfreq/qcom,cpubw.41/governor "performance"
+    write /sys/class/devfreq/0.qcom,cache/governor "cache_hwmon"
     write /sys/kernel/msm_limiter/scaling_governor_0 performance
     write /sys/kernel/msm_limiter/scaling_governor_1 performance
     write /sys/kernel/msm_limiter/scaling_governor_2 performance
