@@ -41,7 +41,7 @@ cat << CTAG
 						action:"generic '$MSMTHERMAL'/parameters/limit_temp_degC"
 					}},'
 				fi
-				if [ -f "$MSMTHERMAL/parameters/core_limit_temp_degC" ]; then
+				if [ -f "$MSMTHERMAL/parameters/core_limit_temp_degC_0" ]; then
 				TEMP=\`$BB cat $MSMTHERMAL/parameters/core_limit_temp_degC\`;
 					$BB echo '{ SSeekBar:{
 						title:"Core Throttle Temperature",
