@@ -591,7 +591,6 @@
 /sys/devices/platform/bluetooth_rfkill/rfkill/rfkill0/state          -- u:object_r:sysfs_bluetooth_writable:s0
 /sys/devices/platform/kcal_ctrl.0/kcal                               -- u:object_r:sysfs_hardware:s0
 /sys/class/timed_output/vibrator/amp                                 -- u:object_r:sysfs_hardware:s0
-/sys/devices/msm_sdcc.1/mmc_host/mmc1/mmc1:0001/block/mmcblk0/queue/scheduler  -- u:object_r:sysfs_writable:s0
 
 ###################################
 # data files
@@ -630,7 +629,7 @@
 #############################
 # performance-related sysfs files (CM)
 /sys/devices/system/cpu.*/cpufreq(/.*)? --  u:object_r:sysfs_devices_system_cpu:s0
-/sys/block/mmcblk0/queue/scheduler  --    u:object_r:sysfs_writable:s0
+/sys/block/mmcblk.*/queue/scheduler  --    u:object_r:sysfs_devices_system_iosched:s0
 
 /data/hostapd(/.*)?         u:object_r:wifi_data_file:s0
 /data/misc/radio(/.*)?      u:object_r:radio_data_file:s0
