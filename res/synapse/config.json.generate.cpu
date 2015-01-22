@@ -394,6 +394,7 @@ cat << CTAG
 						]
 					},
 					exclude: [
+						"boost_duration",
 						"boostpulse",
 						"cpu_utilization",
 						"sampling_rate_min",
