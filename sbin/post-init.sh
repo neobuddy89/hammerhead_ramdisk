@@ -1,10 +1,7 @@
 #!/sbin/busybox sh
 
-BB=/sbin/busybox
-
 # Mount root as RW to apply tweaks and settings
-$BB mount -t rootfs -o remount,rw rootfs;
-$BB mount -o remount,rw /;
+mount -o remount,rw /;
 mount -o rw,remount /system
 
 # Cleanup conflicts
@@ -14,6 +11,11 @@ fi;
 if [ -e /system/bin/thermal-engine-hh ]; then
 mv /system/bin/thermal-engine-hh /system/bin/thermal-engine-hh-bak;
 fi;
+rm -f /system/etc/init.d/N4UKM;
+rm -f /system/etc/init.d/UKM;
+rm -f /system/etc/init.d/UKM_WAKE;
+rm -f /system/xbin/uci;
+rm -rf /data/UKM;
 
 # allow untrusted apps to read from debugfs
 /system/xbin/supolicy --live \
@@ -30,19 +32,20 @@ fi;
 	"allow system_server resourcecache_data_file file { open read write getattr add_name setattr create remove_name unlink link }"
 
 # Make tmp folder
-$BB mkdir /tmp;
+mkdir /tmp;
 
 # Give permissions to execute
-$BB chown -R root:system /tmp/;
-$BB chmod -R 777 /tmp/;
-$BB chmod -R 777 /res/;
-$BB chmod 6755 /res/synapse/actions/*;
-$BB chmod 6755 /sbin/*;
-$BB chmod 6755 /system/xbin/*;
-$BB echo "Boot initiated on $(date)" > /tmp/bootcheck;
+chown -R root:system /tmp/;
+chmod -R 777 /tmp/;
+chmod -R 777 /res/;
+chmod 6755 /res/synapse/actions/*;
+chmod 6755 /sbin/*;
+chmod 6755 /system/xbin/*;
+echo "Boot initiated on $(date)" > /tmp/bootcheck;
 
-$BB echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
-$BB echo 32 > /sys/module/lowmemorykiller/parameters/cost
+# Tune LMK with values we love
+echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
+echo 32 > /sys/module/lowmemorykiller/parameters/cost
 
 ln -s /res/synapse/uci /sbin/uci
 /sbin/uci
