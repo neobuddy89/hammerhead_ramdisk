@@ -229,6 +229,9 @@ on property:sys.boot_completed=1
     # Let the chaos begin
     exec /sbin/post-init.sh
 
+    # Set SELinux to enforcing mode
+    setenforce 1
+
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
