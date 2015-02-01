@@ -98,6 +98,9 @@ on property:sys.boot_completed=1
     # Let the hybrid power rule
     exec /sbin/post-init.sh
 
+    # Set SELinux to enforcing mode
+    setenforce 1
+
 # CM Performance Profiles
 
 # Powersave
