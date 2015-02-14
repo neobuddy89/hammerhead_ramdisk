@@ -32,6 +32,8 @@ cat << CTAG
 			$BB echo ','
 			. /res/synapse/config.json.generate.misc
 			$BB echo ','
+			. /res/synapse/config.json.generate.profile
+			$BB echo ','
 			. /res/synapse/config.json.generate.sound
 			$BB echo ','
 			if [ -f "/sys/module/msm_thermal/parameters/limit_temp_degC" ]; then
