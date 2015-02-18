@@ -20,6 +20,7 @@ rm -rf /data/UKM;
 # allow untrusted apps to read from debugfs
 /system/xbin/supolicy --live \
 	"allow untrusted_app debugfs file { open read getattr }" \
+	"allow untrusted_app sysfs_hardware file { open read getattr }" \
 	"allow untrusted_app sysfs_lowmemorykiller file { open read getattr }" \
 	"allow untrusted_app persist_file dir { open read getattr }" \
 	"allow debuggerd gpu_device chr_file { open read getattr }" \
