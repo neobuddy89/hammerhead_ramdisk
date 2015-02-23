@@ -171,10 +171,6 @@ on boot
     write /sys/module/lowmemorykiller/parameters/minfree "1536,2048,4096,16384,28672,32768"
     write /sys/module/lowmemorykiller/parameters/cost 32
 
-    # Tweak background writeout
-    write /proc/sys/vm/dirty_expire_centisecs 200
-    write /proc/sys/vm/dirty_background_ratio  5
-
     chown system system /dev/cpuctl/apps/cpu.notify_on_migrate
     chmod 0644 /dev/cpuctl/apps/cpu.notify_on_migrate
 
