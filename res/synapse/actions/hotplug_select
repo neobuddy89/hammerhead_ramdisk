@@ -1,6 +1,7 @@
 BB=/sbin/busybox;
 
 if [[ ! -z $2 ]]; then
+	$BB mount -o remount,rw /;
 	$BB echo $2 > $1;
 	if [  $2 == "MSM_Hotplug" ]; then
 			stop mpdecision;

@@ -65,6 +65,7 @@ case $1 in
 					VOLTARR="$VOLTARR $((UVOLT + NEW_VOLT))";
 				done < $P;
 
+				$BB mount -o remount,rw /;
 				$BB echo "$VOLTARR" > $P 2> /dev/null;
 			fi;
 			
@@ -76,6 +77,7 @@ case $1 in
 		
 		if [ -f $P ]; then
 			if [[ ! -z $3 ]]; then
+				$BB mount -o remount,rw /;
 				cpuwrite $2 $3;
 			fi;
 		
@@ -87,6 +89,7 @@ case $1 in
 	
 	if [ -f $P ]; then
 		if [[ ! -z $3 ]]; then
+			$BB mount -o remount,rw /;
 			corewrite $2 $3;
 		fi;
 		
