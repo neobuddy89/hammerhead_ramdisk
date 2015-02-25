@@ -559,7 +559,7 @@
 
 #Context for mediaserver
 /data/display-tests/media(/.*)?                 u:object_r:display_test_media_file:s0
-#line 1 "device/lge/hammerhead/sepolicy/file_contexts"
+#line 1 "device/lge/hammerheadcaf/sepolicy/file_contexts"
 ###################################
 # Dev nodes
 #
@@ -597,7 +597,7 @@
 /sys/class/android_usb/f_rmnet_smd_sdio/transport                    -- u:object_r:sysfs_rmnet:s0
 /sys/devices/virtual/android_usb/android0/f_rmnet_smd_sdio/transport -- u:object_r:sysfs_rmnet:s0
 /sys/devices/platform/bluetooth_rfkill/rfkill/rfkill0/state          -- u:object_r:sysfs_bluetooth_writable:s0
-/sys/devices/platform/kcal_ctrl\.0/kcal                              -- u:object_r:sysfs_hardware:s0
+/sys/devices/platform/kcal_ctrl\.0/kcal                              -- u:object_r:rootfs:s0
 /sys/class/timed_output/vibrator/amp                                 -- u:object_r:sysfs_hardware:s0
 
 ###################################
@@ -621,6 +621,8 @@
 /data/tombstones/ramdump(/.*)?                  u:object_r:ramdump_data_file:s0
 #line 1 "vendor/cm/sepolicy/file_contexts"
 /cache/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
+
+/cache/recovery(/.*)?     u:object_r:recovery_cache_file:s0
 
 # Auditd is a logging daemon. Put it into logd's context
 /system/bin/auditd        u:object_r:logd_exec:s0
