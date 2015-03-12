@@ -106,11 +106,13 @@ on property:sys.boot_completed=1
     # enable slimport detection
     write /sys/module/slimport/parameters/enable_irq 1
 
+    write /sys/module/msm_hotplug/down_lock_duration 500
+    write /sys/module/msm_hotplug/boost_lock_duration 2500
+    write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
+    write /sys/module/msm_hotplug/fast_lane_load 100
+
     # Let the hybrid power rule
     exec /sbin/post-init.sh
-
-    # Set SELinux to enforcing mode
-    setenforce 1
 
 # CM Performance Profiles
 

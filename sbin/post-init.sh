@@ -51,5 +51,12 @@ echo "Boot initiated on $(date)" > /tmp/bootcheck;
 echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
 echo 32 > /sys/module/lowmemorykiller/parameters/cost
 
+# Install Busybox
+/sbin/busybox --install -s /sbin
+
 ln -s /res/synapse/uci /sbin/uci
 /sbin/uci
+
+if [ ! -e /data/.selinux_disabled ]; then
+	setenforce 1
+fi;
