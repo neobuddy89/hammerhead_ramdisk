@@ -104,7 +104,7 @@ sip                                       u:object_r:radio_service:s0
 statusbar                                 u:object_r:system_server_service:s0
 SurfaceFlinger                            u:object_r:surfaceflinger_service:s0
 task                                      u:object_r:system_server_service:s0
-telecom                                   u:object_r:radio_service:s0
+telecom                                   u:object_r:system_server_service:s0
 telephony.registry                        u:object_r:system_server_service:s0
 textservices                              u:object_r:system_server_service:s0
 trust                                     u:object_r:system_server_service:s0
@@ -124,7 +124,7 @@ wifi                                      u:object_r:system_server_service:s0
 window                                    u:object_r:system_server_service:s0
 
 *                                         u:object_r:default_android_service:s0
-#line 1 "vendor/cm/sepolicy/service_contexts"
+#line 1 "vendor/eos/sepolicy/service_contexts"
 cmhw                                      u:object_r:system_server_service:s0
 edgegestureservice                        u:object_r:system_server_service:s0
 themes                                    u:object_r:system_server_service:s0
