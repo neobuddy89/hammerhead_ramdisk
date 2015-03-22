@@ -57,6 +57,11 @@ echo 32 > /sys/module/lowmemorykiller/parameters/cost
 ln -s /res/synapse/uci /sbin/uci
 /sbin/uci
 
+# Init.d Support
+/sbin/busybox run-parts /system/etc/init.d
+
 if [ ! -e /data/.selinux_disabled ]; then
 	setenforce 1
 fi;
+
+exit;
