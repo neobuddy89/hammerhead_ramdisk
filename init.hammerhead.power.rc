@@ -25,13 +25,17 @@ on charger
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
+    start mpdecision
 
 on early-init
     write /sys/module/msm_hotplug/min_cpus_online 4
     setprop sys.perf.profile 2
     write /sys/block/mmcblk0/bdi/read_ahead_kb 512
 
-on property:sys.boot_completed=1
+on property:init.svc.bootanim=running
+    setprop sys.perf.profile 2
+
+on property:service.bootanim.exit=1
     # Enable Power modes
     write /sys/module/lpm_resources/enable_low_power/l2 2
     write /sys/module/lpm_resources/enable_low_power/pxo 1
@@ -71,9 +75,10 @@ on property:sys.boot_completed=1
     chmod 664 /sys/devices/system/cpu/cpu2/online
     chmod 664 /sys/devices/system/cpu/cpu3/online
 
+on property:init.svc.bootanim=stopped
     write /sys/module/msm_thermal/core_control/enabled 0
 
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
+    write /sys/kernel/msm_limiter/scaling_governor_0 "ondemand"
     write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 95
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
@@ -96,13 +101,8 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis 100000
     write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 30000
 
-    write /sys/block/mmcblk0/queue/scheduler row
+    write /sys/block/mmcblk0/queue/scheduler cfq
     write /dev/cpuctl/apps/cpu.notify_on_migrate 1
-
-    setprop sys.perf.profile 1
-
-    write /sys/class/kgsl/kgsl-3d0/min_pwrlevel 6
-    write /sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor interactive
 
     # enable slimport detection
     write /sys/module/slimport/parameters/enable_irq 1
@@ -112,6 +112,9 @@ on property:sys.boot_completed=1
     write /sys/module/msm_hotplug/boost_lock_duration 2500
     write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
     write /sys/module/msm_hotplug/fast_lane_load 100
+
+    setprop sys.perf.profile 1
+    start mpdecision
 
     # Let the hybrid power rule
     start postinit

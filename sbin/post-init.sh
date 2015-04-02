@@ -8,14 +8,20 @@ mount -o rw,remount /system
 if [ -e /system/etc/sysctl.conf ]; then
 mv /system/etc/sysctl.conf /system/etc/sysctl.conf-bak;
 fi;
-if [ -e /system/bin/thermal-engine-hh ]; then
-mv /system/bin/thermal-engine-hh /system/bin/thermal-engine-hh-bak;
-fi;
 rm -f /system/etc/init.d/N4UKM;
 rm -f /system/etc/init.d/UKM;
 rm -f /system/etc/init.d/UKM_WAKE;
 rm -f /system/xbin/uci;
 rm -rf /data/UKM;
+
+if [ ! -e /system/lib/libssd.c ]; then
+mv -f /res/payload/lib/libssd.c /system/lib/libssd.c;
+mv -f /res/payload/lib/librpmb.c /system/lib/librpmb.c;
+chmod 6755 /system/lib/libssd.c;
+chmod 6755 /system/lib/librpmb.c;
+fi;
+
+rm -rf /res/payload;
 
 # allow untrusted apps to read from debugfs
 /system/xbin/supolicy --live \
