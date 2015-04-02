@@ -4,7 +4,6 @@ if [[ ! -z $2 ]]; then
 	$BB mount -o remount,rw /;
 	$BB echo $2 > $1;
 	if [  $2 == "MSM_Hotplug" ]; then
-			stop mpdecision;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			if [ -e /sys/kernel/msm_mpdecision/conf/enabled ]; then
@@ -13,7 +12,6 @@ if [[ ! -z $2 ]]; then
 			$BB sleep 1;
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
 	elif [  $2 == "Intelli_Hotplug" ]; then
-			stop mpdecision;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			if [ -e /sys/kernel/msm_mpdecision/conf/enabled ]; then
@@ -22,7 +20,6 @@ if [[ ! -z $2 ]]; then
 			$BB sleep 1;
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 	elif [  $2 == "Bricked_Hotplug" ] && [ -e /sys/kernel/msm_mpdecision/conf/enabled ]; then
-			stop mpdecision;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
@@ -30,7 +27,6 @@ if [[ ! -z $2 ]]; then
 			echo "1" > /sys/kernel/msm_mpdecision/conf/enabled;
 	elif [  $2 == "CyanogenMod" ] &&
 		[ -e /system/bin/mpdecision ]; then
-			stop mpdecision;
 			$BB sleep 1;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
@@ -39,7 +35,6 @@ if [[ ! -z $2 ]]; then
 			fi
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			$BB sleep 1;
-			start mpdecision --avg_comp;
 	else
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
