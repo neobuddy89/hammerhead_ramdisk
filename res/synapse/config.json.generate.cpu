@@ -1,7 +1,3 @@
-#!/sbin/busybox sh
-
-MPS='0:"Disabled", 1:"1", 2:"2"'
-
 cat << CTAG
 {
     name:CPU,
@@ -408,7 +404,7 @@ cat << CTAG
 				}
 			}
 		},
-		exclude: [ "kset" ]
+		exclude: [ "kset", "stats" ]
 	}},
     ]
 }
